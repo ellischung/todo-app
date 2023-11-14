@@ -7,7 +7,6 @@ const Todos = () => {
   const { todos } = useTodo();
   return (
     <div className="todo-list">
-      <TodoForm />
       <Link to="/add">
         <button>+</button>
       </Link>
