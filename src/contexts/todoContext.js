@@ -13,8 +13,8 @@ export const TodoProvider = ({ children }) => {
   const { id } = useParams();
   const [todos, setTodos] = useState([]);
 
-  const addTodo = (text) => {
-    const newTodos = [...todos, { text, isCompleted: false, id: uid() }];
+  const addTodo = (todo) => {
+    const newTodos = [...todos, { ...todo, id: uid() }];
     setTodos(newTodos);
   };
 

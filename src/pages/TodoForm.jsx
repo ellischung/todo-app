@@ -2,18 +2,30 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
 
-function TaskForm() {
-  const [name, setName] = useState("");
-  const [priority, setPriority] = useState(0);
-  const [complexity, setComplexity] = useState(0);
+function TodoForm() {
+  const initialValues = {
+    name: "",
+    priority: 0,
+    complexity: 0,
+    isCompleted: false,
+  };
+  const [todo, setTodo] = useState(initialValues);
   const { addTodo } = useTodo();
   const navigate = useNavigate();
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setTodo((prevTodo) => ({
+      ...prevTodo,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name) return;
-    addTodo(name);
-    setName("");
+    if (!todo.name) return;
+    addTodo(todo);
+    setTodo(initialValues);
     navigate("/");
   };
 
@@ -25,22 +37,25 @@ function TaskForm() {
         <input
           type="text"
           className="input"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name="name"
+          value={todo.name}
+          onChange={handleChange}
         />
         <label>Set Priority Level:</label>
         <input
           type="text"
           className="input"
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
+          name="priority"
+          value={todo.priority}
+          onChange={handleChange}
         />
         <label>Set Complexity Level:</label>
         <input
           type="text"
           className="input"
-          value={complexity}
-          onChange={(e) => setComplexity(e.target.value)}
+          name="complexity"
+          value={todo.complexity}
+          onChange={handleChange}
         />
         <button type="submit">Save Task</button>
       </form>
@@ -48,4 +63,4 @@ function TaskForm() {
   );
 }
 
-export default TaskForm;
+export default TodoForm;
