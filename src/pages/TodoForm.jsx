@@ -1,17 +1,16 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
 
 function TodoForm() {
-  const initialValues = {
-    name: "",
-    priority: 0,
-    complexity: 0,
-    isCompleted: false,
-  };
-  const [todo, setTodo] = useState(initialValues);
-  const { addTodo } = useTodo();
+  const { id } = useParams();
+  const { initialValues, todo, setTodo, getTodo, addTodo, editTodo } =
+    useTodo();
   const navigate = useNavigate();
+  const todoExists = getTodo(id);
+
+  if (todoExists && !todo.id) {
+    setTodo(todoExists);
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,14 +23,19 @@ function TodoForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!todo.name) return;
-    addTodo(todo);
+    if (todoExists) {
+      const updatedTodo = { id: id, ...todo };
+      editTodo(updatedTodo);
+    } else {
+      addTodo(todo);
+    }
     setTodo(initialValues);
     navigate("/");
   };
 
   return (
     <div>
-      <h1>Add New Task</h1>
+      <h1>{todoExists ? "Edit Task" : "Add New Task"}</h1>
       <form onSubmit={handleSubmit}>
         <label>Task Name:</label>
         <input
@@ -57,7 +61,9 @@ function TodoForm() {
           value={todo.complexity}
           onChange={handleChange}
         />
-        <button type="submit">Save Task</button>
+        <button type="submit">
+          {todoExists ? "Update Task" : "Save Task"}
+        </button>
       </form>
     </div>
   );

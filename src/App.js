@@ -17,6 +17,7 @@ function App() {
           <Route exact path="/" element={<Todos />} />
           <Route path="/todo/:id" element={<TodoDetail />} />
           <Route path="/add" element={<TodoForm />} />
+          <Route path="/edit/:id" element={<TodoForm />} />
         </Routes>
       </TodoProvider>
     </Router>

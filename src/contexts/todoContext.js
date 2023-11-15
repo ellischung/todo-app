@@ -11,6 +11,13 @@ export function useTodo() {
 
 export const TodoProvider = ({ children }) => {
   const { id } = useParams();
+  const initialValues = {
+    name: "",
+    priority: 0,
+    complexity: 0,
+    isCompleted: false,
+  };
+  const [todo, setTodo] = useState(initialValues);
   const [todos, setTodos] = useState([]);
   const [sortBy, setSortBy] = useState("default");
 
@@ -46,9 +53,21 @@ export const TodoProvider = ({ children }) => {
   const getTodo = (id) => {
     return todos.find((todo) => todo.id === id);
   };
+
+  const editTodo = (editedTodo) => {
+    setTodos((todos) =>
+      todos.map((todo) =>
+        todo.id === editedTodo.id ? { ...todo, ...editedTodo } : todo
+      )
+    );
+  };
+
   return (
     <TodoContext.Provider
       value={{
+        initialValues,
+        todo,
+        setTodo,
         todos,
         sortedTodos,
         setSortBy,
@@ -56,6 +75,7 @@ export const TodoProvider = ({ children }) => {
         completeTodo,
         removeTodo,
         getTodo,
+        editTodo,
       }}
     >
       {children}

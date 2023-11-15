@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
 
 function Todo() {
@@ -10,6 +10,7 @@ function Todo() {
 
   return (
     <div>
+      <Link to={`/edit/${todo.id}`}>Edit Task</Link>
       <h1>{todo.name}</h1>
       <p>{todo.isCompleted ? "Completed" : "Incomplete"}</p>
       <p>Priority Level: {todo.priority}</p>
