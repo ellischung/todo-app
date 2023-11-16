@@ -17,6 +17,7 @@ export const TodoProvider = ({ children }) => {
     complexity: 0,
     date: null,
     time: "",
+    tags: "",
     isCompleted: false,
   };
   const [todo, setTodo] = useState(initialValues);

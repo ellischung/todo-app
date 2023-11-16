@@ -19,6 +19,7 @@ function Todo() {
       <p>
         {todo.date && `Due Date: ${todo.date} at ${convertTime(todo.time)}`}
       </p>
+      <p>{todo.tags.split(",").map((tag) => `(${tag.trim()})`)}</p>
       <button onClick={() => completeTodo(todo)}>Complete</button>
     </div>
   );

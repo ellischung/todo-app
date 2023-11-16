@@ -77,6 +77,14 @@ function TodoForm() {
           value={todo.time}
           onChange={handleChange}
         />
+        <label>Add Tags:</label>
+        <input
+          type="text"
+          className="input"
+          name="tags"
+          value={todo.tags}
+          onChange={handleChange}
+        />
         <button type="submit">
           {todoExists ? "Update Task" : "Save Task"}
         </button>
