@@ -1,5 +1,6 @@
 import Todo from "../components/Todo";
 import SortDropdown from "../components/SortDropdown";
+import Search from "../components/Search";
 import Filter from "../components/Filter";
 import { useTodo } from "../contexts/todoContext";
 import { Link } from "react-router-dom";
@@ -9,8 +10,9 @@ const Todos = () => {
 
   return (
     <div className="todo-list">
-      <Filter />
+      <Search />
       <SortDropdown />
+      <Filter />
       {sortedTodos.map((todo) => (
         <Todo key={todo.id} todo={todo} />
       ))}

@@ -2,27 +2,29 @@ import React from "react";
 import { useTodo } from "../contexts/todoContext";
 
 function Filter() {
-  const { search, setSearch, filterTodos } = useTodo();
-  const handleChange = (e) => {
-    setSearch(e.target.value);
-  };
+  const { todos } = useTodo();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    filterTodos(search);
+  // grab unique tags from all todos
+  const tags = new Set();
+  todos.forEach((todo) => {
+    todo.tags.split(",").forEach((tag) => {
+      tags.add(tag.trim());
+    });
+  });
+
+  const handleChange = (e) => {
+    setSortBy(e.target.value);
   };
 
   return (
     <div>
       <label>Filter</label>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          className="input"
-          name="filter"
-          onChange={handleChange}
-        />
-      </form>
+      <select id="filter" onChange={handleChange}>
+        <option value="default"></option>
+        {[...tags].map((tag) => (
+          <option value={tag}>{tag}</option>
+        ))}
+      </select>
     </div>
   );
 }
