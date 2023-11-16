@@ -18,7 +18,8 @@ export const TodoProvider = ({ children }) => {
     isCompleted: false,
   };
   const [todo, setTodo] = useState(initialValues);
-  const [todos, setTodos] = useState([]);
+  const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
+  const [todos, setTodos] = useState(storedTodos);
   const [sortBy, setSortBy] = useState("default");
   const [search, setSearch] = useState("");
 
@@ -34,16 +35,9 @@ export const TodoProvider = ({ children }) => {
 
   const sortedTodos = [...todos].sort(sortingFunctions[sortBy]);
 
-  // useEffect(() => {
-  //   const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
-  //   setTodos(storedTodos);
-  //   console.log("Data loaded from local storage:", storedTodos);
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem("todos", JSON.stringify(todos));
-  //   console.log("Data saved to local storage:", todos);
-  // }, [todos]);
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   const addTodo = (todo) => {
     const newTodos = [...todos, { ...todo, id: uid() }];
