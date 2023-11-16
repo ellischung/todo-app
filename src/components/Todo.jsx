@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
+import { convertTime } from "../utils/convertTime";
 
 function Todo({ todo }) {
   const { completeTodo, removeTodo } = useTodo();
+
   return (
     <div
       className="todo"
@@ -12,6 +14,9 @@ function Todo({ todo }) {
       <div>
         <p>Priority Level: {todo.priority}</p>
         <p>Complexity Level: {todo.complexity}</p>
+        <p>
+          {todo.date && `Due Date: ${todo.date} at ${convertTime(todo.time)}`}
+        </p>
       </div>
       <div>
         <button onClick={() => completeTodo(todo)}>Complete</button>

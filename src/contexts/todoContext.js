@@ -15,6 +15,8 @@ export const TodoProvider = ({ children }) => {
     name: "",
     priority: 0,
     complexity: 0,
+    date: null,
+    time: "",
     isCompleted: false,
   };
   const [todo, setTodo] = useState(initialValues);
@@ -29,8 +31,8 @@ export const TodoProvider = ({ children }) => {
     "-priority": (a, b) => b.priority - a.priority,
     "+complexity": (a, b) => a.complexity - b.complexity,
     "-complexity": (a, b) => b.complexity - a.complexity,
-    "+date": (a, b) => a.date - b.date,
-    "-date": (a, b) => b.date - a.date,
+    "+date": (a, b) => new Date(a.date) - new Date(b.date),
+    "-date": (a, b) => new Date(b.date) - new Date(a.date),
   };
 
   const sortedTodos = [...todos].sort(sortingFunctions[sortBy]);

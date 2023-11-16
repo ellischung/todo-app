@@ -61,6 +61,22 @@ function TodoForm() {
           value={todo.complexity}
           onChange={handleChange}
         />
+        <label>Set Due Date:</label>
+        <input
+          type="date"
+          className="input"
+          name="date"
+          value={todo.date}
+          onChange={handleChange}
+        />
+        <label>Set Time:</label>
+        <input
+          type="time"
+          className="input"
+          name="time"
+          value={todo.time}
+          onChange={handleChange}
+        />
         <button type="submit">
           {todoExists ? "Update Task" : "Save Task"}
         </button>

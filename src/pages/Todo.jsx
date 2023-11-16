@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
+import { convertTime } from "../utils/convertTime";
 
 function Todo() {
   const { id } = useParams();
@@ -15,6 +16,9 @@ function Todo() {
       <p>{todo.isCompleted ? "Completed" : "Incomplete"}</p>
       <p>Priority Level: {todo.priority}</p>
       <p>Complexity Level: {todo.complexity}</p>
+      <p>
+        {todo.date && `Due Date: ${todo.date} at ${convertTime(todo.time)}`}
+      </p>
       <button onClick={() => completeTodo(todo)}>Complete</button>
     </div>
   );
