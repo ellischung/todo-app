@@ -2,7 +2,7 @@ import React from "react";
 import { useTodo } from "../contexts/todoContext";
 
 function SortDropdown() {
-  const { setSortBy } = useTodo();
+  const { sortBy, setSortBy } = useTodo();
   const handleChange = (e) => {
     setSortBy(e.target.value);
   };
@@ -10,7 +10,7 @@ function SortDropdown() {
   return (
     <div>
       <label>Sort</label>
-      <select id="sort" defaultValue="default" onChange={handleChange}>
+      <select id="sort" defaultValue={sortBy} onChange={handleChange}>
         <option value="default">Default</option>
         <option value="+priority">Ascending Priority</option>
         <option value="-priority">Descending Priority</option>
