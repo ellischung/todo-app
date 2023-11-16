@@ -23,8 +23,9 @@ export const TodoProvider = ({ children }) => {
   const [todo, setTodo] = useState(initialValues);
   const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
   const [todos, setTodos] = useState(storedTodos);
-  const [sortBy, setSortBy] = useState("default");
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("");
+  const [sortBy, setSortBy] = useState("default");
 
   const sortingFunctions = {
     default: (a, b) => 0,
@@ -36,7 +37,9 @@ export const TodoProvider = ({ children }) => {
     "-date": (a, b) => new Date(b.date) - new Date(a.date),
   };
 
-  const sortedTodos = [...todos].sort(sortingFunctions[sortBy]);
+  const selectedTodos = [...todos]
+    .filter((todo) => todo.name.includes(search) && todo.tags.includes(filter))
+    .sort(sortingFunctions[sortBy]);
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
@@ -71,10 +74,6 @@ export const TodoProvider = ({ children }) => {
     );
   };
 
-  const filterTodos = (input) => {
-    setTodos((todos) => todos.filter((todo) => todo.name === input));
-  };
-
   return (
     <TodoContext.Provider
       value={{
@@ -84,15 +83,16 @@ export const TodoProvider = ({ children }) => {
         sortBy,
         setSortBy,
         todos,
-        sortedTodos,
+        selectedTodos,
         search,
         setSearch,
+        filter,
+        setFilter,
         addTodo,
         completeTodo,
         removeTodo,
         getTodo,
         editTodo,
-        filterTodos,
       }}
     >
       {children}

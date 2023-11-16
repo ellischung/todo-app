@@ -6,14 +6,14 @@ import { useTodo } from "../contexts/todoContext";
 import { Link } from "react-router-dom";
 
 const Todos = () => {
-  const { sortedTodos } = useTodo();
+  const { selectedTodos } = useTodo();
 
   return (
     <div className="todo-list">
       <Search />
       <SortDropdown />
       <Filter />
-      {sortedTodos.map((todo) => (
+      {selectedTodos.map((todo) => (
         <Todo key={todo.id} todo={todo} />
       ))}
       <Link to="/add">

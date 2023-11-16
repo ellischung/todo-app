@@ -2,7 +2,7 @@ import React from "react";
 import { useTodo } from "../contexts/todoContext";
 
 function Filter() {
-  const { todos } = useTodo();
+  const { todos, filter, setFilter } = useTodo();
 
   // grab unique tags from all todos
   const tags = new Set();
@@ -13,13 +13,13 @@ function Filter() {
   });
 
   const handleChange = (e) => {
-    setSortBy(e.target.value);
+    setFilter(e.target.value);
   };
 
   return (
     <div>
       <label>Filter</label>
-      <select id="filter" onChange={handleChange}>
+      <select id="filter" defaultValue={filter} onChange={handleChange}>
         <option value="default"></option>
         {[...tags].map((tag) => (
           <option value={tag}>{tag}</option>
