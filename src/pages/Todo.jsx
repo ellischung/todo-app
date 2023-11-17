@@ -6,12 +6,22 @@ import ProgressBar from "../components/ProgressBar";
 
 function Todo() {
   const { id } = useParams();
-  const { completeTodo, getTodo } = useTodo();
+  const { getTodo, removeTodo } = useTodo();
   const todo = getTodo(id);
   const [progress, setProgress] = useState(0);
   const [subtasks, setSubtasks] = useState(todo.subtasks);
 
   if (!todo) return <div>No todo found</div>;
+
+  let alertColor = "";
+  if (todo.date) {
+    const timeDiff = new Date(todo.date) - new Date().setHours(0, 0, 0, 0);
+    if (timeDiff < 0) {
+      alertColor = "red";
+    } else if (timeDiff < 3 * 24 * 60 * 60 * 1000) {
+      alertColor = "orange";
+    }
+  }
 
   useEffect(() => {
     const totalCheckedSubtasks = subtasks.filter(
@@ -41,8 +51,8 @@ function Todo() {
       <p>{todo.isCompleted ? "Completed" : "Incomplete"}</p>
       <p>Priority Level: {todo.priority}</p>
       <p>Complexity Level: {todo.complexity}</p>
-      <p>
-        {todo.date && `Due Date: ${todo.date} at ${convertTime(todo.time)}`}
+      <p style={{ color: alertColor }}>
+        {todo.date && `Due Date: ${todo.date} ${convertTime(todo.time)}`}
       </p>
       <p>{todo.tags.split(",").map((tag) => `(${tag.trim()})`)}</p>
       <p>Task Progress:</p>
@@ -64,7 +74,7 @@ function Todo() {
         </div>
       ))}
       <button onClick={repeatTask}>Repeat Task</button>
-      <button onClick={() => completeTodo(todo)}>Complete</button>
+      <button onClick={() => removeTodo(todo)}>X</button>
     </div>
   );
 }

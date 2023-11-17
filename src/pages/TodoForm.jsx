@@ -16,6 +16,8 @@ function TodoForm() {
     subtasks: [],
   };
   const [todo, setTodo] = useState(initialValues);
+  const [selectedPriority, setSelectedPriority] = useState(null);
+  const [selectedComplexity, setSelectedComplexity] = useState(null);
   const [subtask, setSubtask] = useState({ name: "", isChecked: false });
   const [subtasks, setSubtasks] = useState([]);
   const navigate = useNavigate();
@@ -27,6 +29,8 @@ function TodoForm() {
       subtasks: todoExists.subtasks,
     });
     setSubtasks(todoExists.subtasks);
+    setSelectedPriority(todoExists.priority);
+    setSelectedComplexity(todoExists.complexity);
   }
 
   const handleChange = (e) => {
@@ -83,21 +87,37 @@ function TodoForm() {
           onChange={handleChange}
         />
         <label>Set Priority Level:</label>
-        <input
-          type="text"
-          className="input"
-          name="priority"
-          value={todo.priority}
-          onChange={handleChange}
-        />
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+          <button
+            key={value}
+            onClick={(e) => {
+              e.preventDefault();
+              handleChange({ target: { name: "priority", value } });
+              setSelectedPriority(value);
+            }}
+            style={{
+              backgroundColor: selectedPriority === value ? "blue" : "white",
+            }}
+          >
+            {value}
+          </button>
+        ))}
         <label>Set Complexity Level:</label>
-        <input
-          type="text"
-          className="input"
-          name="complexity"
-          value={todo.complexity}
-          onChange={handleChange}
-        />
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+          <button
+            key={value}
+            onClick={(e) => {
+              e.preventDefault();
+              handleChange({ target: { name: "complexity", value } });
+              setSelectedComplexity(value);
+            }}
+            style={{
+              backgroundColor: selectedComplexity === value ? "blue" : "white",
+            }}
+          >
+            {value}
+          </button>
+        ))}
         <label>Set Due Date:</label>
         <input
           type="date"
