@@ -82,13 +82,13 @@ function Todo() {
               handleSubtask(index);
             }}
           >
-            Check
+            &#10003;
           </button>
         </div>
       ))}
       <br />
       <button onClick={repeatTask}>Repeat Task</button>
-      <button onClick={() => removeTodo(todo)}>X</button>
+      <button onClick={() => removeTodo(todo)}>Delete Task</button>
     </div>
   );
 }
