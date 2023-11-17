@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
 import { convertTime } from "../utils/convertTime";
@@ -19,6 +19,15 @@ function Todo({ todo }) {
     }
   }
 
+  useEffect(() => {
+    const totalCheckedSubtasks = todo.subtasks.filter(
+      (subtask) => subtask.isChecked
+    ).length;
+    setProgress(
+      Math.floor((totalCheckedSubtasks / todo.subtasks.length) * 100)
+    );
+  }, [todo.subtasks]);
+
   return (
     <div
       className="todo"
@@ -36,7 +45,18 @@ function Todo({ todo }) {
         <p style={{ color: alertColor }}>
           {todo.date && `Due Date: ${todo.date} ${convertTime(todo.time)}`}
         </p>
-        <p>{todo.tags.split(",").map((tag) => `(${tag.trim()})`)}</p>
+        <p>
+          {todo.tags
+            .split(",")
+            .map(
+              (tag) =>
+                tag && (
+                  <span style={{ margin: "5px", border: "1px solid" }}>
+                    {tag.trim()}
+                  </span>
+                )
+            )}
+        </p>
       </div>
       <div>
         <button onClick={() => completeTodo(todo)}>
@@ -44,8 +64,8 @@ function Todo({ todo }) {
         </button>
         <button onClick={() => navigate(`/edit/${todo.id}`)}>Edit</button>
       </div>
-      {/* <p>Task Completed: </p>
-      <ProgressBar progress={progress} /> */}
+      <p>Task Completed: </p>
+      <ProgressBar progress={progress} />
     </div>
   );
 }

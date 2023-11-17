@@ -6,7 +6,7 @@ import ProgressBar from "../components/ProgressBar";
 
 function Todo() {
   const { id } = useParams();
-  const { getTodo, removeTodo } = useTodo();
+  const { getTodo, removeTodo, editTodo } = useTodo();
   const todo = getTodo(id);
   const [progress, setProgress] = useState(0);
   const [subtasks, setSubtasks] = useState(todo.subtasks);
@@ -28,6 +28,7 @@ function Todo() {
       (subtask) => subtask.isChecked
     ).length;
     setProgress(Math.floor((totalCheckedSubtasks / subtasks.length) * 100));
+    editTodo({ ...todo, subtasks: subtasks });
   }, [subtasks]);
 
   const handleSubtask = (index) => {
@@ -54,9 +55,21 @@ function Todo() {
       <p style={{ color: alertColor }}>
         {todo.date && `Due Date: ${todo.date} ${convertTime(todo.time)}`}
       </p>
-      <p>{todo.tags.split(",").map((tag) => `(${tag.trim()})`)}</p>
+      <p>
+        {todo.tags
+          .split(",")
+          .map(
+            (tag) =>
+              tag && (
+                <span style={{ margin: "5px", border: "1px solid" }}>
+                  {tag.trim()}
+                </span>
+              )
+          )}
+      </p>
       <p>Task Progress:</p>
       <ProgressBar progress={progress} />
+      <p>Checklist for subtasks:</p>
       {subtasks.map((subtask, index) => (
         <div
           style={{
@@ -73,6 +86,7 @@ function Todo() {
           </button>
         </div>
       ))}
+      <br />
       <button onClick={repeatTask}>Repeat Task</button>
       <button onClick={() => removeTodo(todo)}>X</button>
     </div>
