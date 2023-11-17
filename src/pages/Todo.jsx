@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
 import { convertTime } from "../utils/convertTime";
 import ProgressBar from "../components/ProgressBar";
 
 function Todo() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { getTodo, removeTodo, editTodo } = useTodo();
   const todo = getTodo(id);
   const [progress, setProgress] = useState(0);
@@ -24,10 +25,10 @@ function Todo() {
   }
 
   useEffect(() => {
-    const totalCheckedSubtasks = subtasks.filter(
+    const numCheckedSubtasks = subtasks.filter(
       (subtask) => subtask.isChecked
     ).length;
-    setProgress(Math.floor((totalCheckedSubtasks / subtasks.length) * 100));
+    setProgress(Math.floor((numCheckedSubtasks / subtasks.length) * 100));
     editTodo({ ...todo, subtasks: subtasks });
   }, [subtasks]);
 
@@ -47,9 +48,7 @@ function Todo() {
 
   return (
     <div>
-      <Link to={`/edit/${todo.id}`}>Edit Task</Link>
       <h1>{todo.name}</h1>
-      <p>{todo.isCompleted ? "Completed" : "Incomplete"}</p>
       <p>Priority Level: {todo.priority}</p>
       <p>Complexity Level: {todo.complexity}</p>
       <p style={{ color: alertColor }}>
@@ -87,8 +86,9 @@ function Todo() {
         </div>
       ))}
       <br />
-      <button onClick={repeatTask}>Repeat Task</button>
+      <button onClick={() => navigate(`/edit/${todo.id}`)}>Edit Task</button>
       <button onClick={() => removeTodo(todo)}>Delete Task</button>
+      <button onClick={repeatTask}>Repeat Task</button>
     </div>
   );
 }

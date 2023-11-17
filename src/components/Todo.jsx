@@ -20,12 +20,10 @@ function Todo({ todo }) {
   }
 
   useEffect(() => {
-    const totalCheckedSubtasks = todo.subtasks.filter(
+    const numCheckedSubtasks = todo.subtasks.filter(
       (subtask) => subtask.isChecked
     ).length;
-    setProgress(
-      Math.floor((totalCheckedSubtasks / todo.subtasks.length) * 100)
-    );
+    setProgress(Math.floor((numCheckedSubtasks / todo.subtasks.length) * 100));
   }, [todo.subtasks]);
 
   return (
