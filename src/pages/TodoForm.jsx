@@ -1,10 +1,20 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
 
 function TodoForm() {
   const { id } = useParams();
-  const { initialValues, todo, setTodo, getTodo, addTodo, editTodo } =
-    useTodo();
+  const { getTodo, addTodo, editTodo } = useTodo();
+  const initialValues = {
+    name: "",
+    priority: 0,
+    complexity: 0,
+    date: null,
+    time: "",
+    tags: "",
+    isCompleted: false,
+  };
+  const [todo, setTodo] = useState(initialValues);
   const navigate = useNavigate();
   const todoExists = getTodo(id);
 

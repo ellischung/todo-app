@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
 import { convertTime } from "../utils/convertTime";
 
 function Todo({ todo }) {
   const { completeTodo, removeTodo } = useTodo();
+  const navigate = useNavigate();
 
   let alertColor = "";
   if (todo.date) {
@@ -37,6 +38,7 @@ function Todo({ todo }) {
       <div>
         <button onClick={() => completeTodo(todo)}>Complete</button>
         <button onClick={() => removeTodo(todo)}>X</button>
+        <button onClick={() => navigate(`/edit/${todo.id}`)}>Edit</button>
       </div>
     </div>
   );

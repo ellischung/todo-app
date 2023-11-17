@@ -11,16 +11,6 @@ export function useTodo() {
 
 export const TodoProvider = ({ children }) => {
   const { id } = useParams();
-  const initialValues = {
-    name: "",
-    priority: 0,
-    complexity: 0,
-    date: null,
-    time: "",
-    tags: "",
-    isCompleted: false,
-  };
-  const [todo, setTodo] = useState(initialValues);
   const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
   const [todos, setTodos] = useState(storedTodos);
   const [search, setSearch] = useState("");
@@ -89,9 +79,6 @@ export const TodoProvider = ({ children }) => {
   return (
     <TodoContext.Provider
       value={{
-        initialValues,
-        todo,
-        setTodo,
         todos,
         setSearch,
         filter,
