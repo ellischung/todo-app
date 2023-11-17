@@ -28,7 +28,7 @@ function Todo() {
     const numCheckedSubtasks = subtasks.filter(
       (subtask) => subtask.isChecked
     ).length;
-    setProgress(Math.floor((numCheckedSubtasks / subtasks.length) * 100));
+    setProgress(Math.floor((numCheckedSubtasks / subtasks.length) * 100) || 0);
     editTodo({ ...todo, subtasks: subtasks });
   }, [subtasks]);
 

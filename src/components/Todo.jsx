@@ -23,7 +23,9 @@ function Todo({ todo }) {
     const numCheckedSubtasks = todo.subtasks.filter(
       (subtask) => subtask.isChecked
     ).length;
-    setProgress(Math.floor((numCheckedSubtasks / todo.subtasks.length) * 100));
+    setProgress(
+      Math.floor((numCheckedSubtasks / todo.subtasks.length) * 100) || 0
+    );
   }, [todo.subtasks]);
 
   return (
