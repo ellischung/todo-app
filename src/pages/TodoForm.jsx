@@ -13,13 +13,20 @@ function TodoForm() {
     time: "",
     tags: "",
     isCompleted: false,
+    subtasks: [],
   };
   const [todo, setTodo] = useState(initialValues);
+  const [subtask, setSubtask] = useState({ name: "", isChecked: false });
+  const [subtasks, setSubtasks] = useState([]);
   const navigate = useNavigate();
   const todoExists = getTodo(id);
 
   if (todoExists && !todo.id) {
-    setTodo(todoExists);
+    setTodo({
+      ...todoExists,
+      subtasks: todoExists.subtasks,
+    });
+    setSubtasks(todoExists.subtasks);
   }
 
   const handleChange = (e) => {
@@ -33,14 +40,34 @@ function TodoForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!todo.name) return;
+    const updatedTodo = { ...todo, subtasks: subtasks };
     if (todoExists) {
-      const updatedTodo = { id: id, ...todo };
       editTodo(updatedTodo);
     } else {
-      addTodo(todo);
+      addTodo(updatedTodo);
     }
     setTodo(initialValues);
     navigate("/");
+  };
+
+  const addSubtask = (e) => {
+    e.preventDefault();
+    if (!subtask.name) return;
+    setSubtasks([...subtasks, subtask]);
+    setSubtask({ name: "", isChecked: false });
+  };
+
+  const removeSubtask = (e, taskToRemove) => {
+    e.preventDefault();
+    setSubtasks([...subtasks].filter((task) => task != taskToRemove));
+  };
+
+  const editSubtask = (e, index) => {
+    setSubtasks(
+      [...subtasks].map((subtask, i) =>
+        i === index ? { ...subtask, name: e.target.value } : subtask
+      )
+    );
   };
 
   return (
@@ -87,6 +114,26 @@ function TodoForm() {
           value={todo.time}
           onChange={handleChange}
         />
+        <label>Add Subtask:</label>
+        <input
+          type="text"
+          className="input"
+          name="subtask"
+          placeholder="Add a subtask.."
+          value={subtask.name}
+          onChange={(e) => setSubtask({ ...subtask, name: e.target.value })}
+        />
+        <button onClick={(e) => addSubtask(e)}>+</button>
+        {subtasks.map((subtask, index) => (
+          <div>
+            <input
+              key={index}
+              value={subtask.name}
+              onChange={(e) => editSubtask(e, index)}
+            />
+            <button onClick={(e) => removeSubtask(e, subtask)}>x</button>
+          </div>
+        ))}
         <label>Add Tags:</label>
         <input
           type="text"

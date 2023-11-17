@@ -70,9 +70,7 @@ export const TodoProvider = ({ children }) => {
 
   const editTodo = (editedTodo) => {
     setTodos((todos) =>
-      todos.map((todo) =>
-        todo.id === editedTodo.id ? { ...todo, ...editedTodo } : todo
-      )
+      todos.map((todo) => (todo.id === editedTodo.id ? editedTodo : todo))
     );
   };
 
