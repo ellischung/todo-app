@@ -27,19 +27,26 @@ export const TodoProvider = ({ children }) => {
   const [filter, setFilter] = useState("");
   const [sortBy, setSortBy] = useState("default");
 
-  const sortingFunctions = {
-    default: (a, b) => 0,
-    "+priority": (a, b) => a.priority - b.priority,
-    "-priority": (a, b) => b.priority - a.priority,
-    "+complexity": (a, b) => a.complexity - b.complexity,
-    "-complexity": (a, b) => b.complexity - a.complexity,
-    "+date": (a, b) => new Date(a.date) - new Date(b.date),
-    "-date": (a, b) => new Date(b.date) - new Date(a.date),
-  };
-
   const selectedTodos = [...todos]
     .filter((todo) => todo.name.includes(search) && todo.tags.includes(filter))
-    .sort(sortingFunctions[sortBy]);
+    .sort((a, b) => {
+      switch (sortBy) {
+        case "+priority":
+          return a.priority - b.priority;
+        case "-priority":
+          return b.priority - a.priority;
+        case "+complexity":
+          return a.complexity - b.complexity;
+        case "-complexity":
+          return b.complexity - a.complexity;
+        case "+date":
+          return new Date(a.date) - new Date(b.date);
+        case "-date":
+          return new Date(b.date) - new Date(a.date);
+        default:
+          return 0;
+      }
+    });
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
@@ -80,14 +87,13 @@ export const TodoProvider = ({ children }) => {
         initialValues,
         todo,
         setTodo,
-        sortBy,
-        setSortBy,
         todos,
-        selectedTodos,
-        search,
         setSearch,
         filter,
         setFilter,
+        sortBy,
+        setSortBy,
+        selectedTodos,
         addTodo,
         completeTodo,
         removeTodo,
