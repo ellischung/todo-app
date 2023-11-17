@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
-import Todos from "./pages/Todos";
-import TodoDetail from "./pages/Todo";
+import HomePage from "./pages/HomePage";
+import Todo from "./pages/Todo";
 import TodoForm from "./pages/TodoForm";
 import { TodoProvider } from "./contexts/todoContext";
 import "./styles.css";
@@ -14,8 +14,8 @@ function App() {
       </nav>
       <TodoProvider>
         <Routes>
-          <Route exact path="/" element={<Todos />} />
-          <Route path="/todo/:id" element={<TodoDetail />} />
+          <Route exact path="/" element={<HomePage />} />
+          <Route path="/todo/:id" element={<Todo />} />
           <Route path="/add" element={<TodoForm />} />
           <Route path="/edit/:id" element={<TodoForm />} />
         </Routes>

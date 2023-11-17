@@ -20,7 +20,7 @@ function Filter() {
     <div>
       <label>Filter</label>
       <select id="filter" defaultValue={filter} onChange={handleChange}>
-        <option value="default"></option>
+        <option value="">None</option>
         {[...tags].map((tag) => (
           <option value={tag}>{tag}</option>
         ))}

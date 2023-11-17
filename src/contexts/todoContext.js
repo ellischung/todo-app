@@ -26,6 +26,7 @@ export const TodoProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const [sortBy, setSortBy] = useState("default");
+  const [power, setPower] = useState(false);
 
   const selectedTodos = [...todos]
     .filter((todo) => todo.name.includes(search) && todo.tags.includes(filter))
@@ -47,6 +48,10 @@ export const TodoProvider = ({ children }) => {
           return 0;
       }
     });
+
+  const poweredTodo = [...todos]
+    .filter((todo) => !todo.isCompleted)
+    .sort((a, b) => b.priority + b.complexity - (a.priority + a.complexity))[0];
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
@@ -93,7 +98,10 @@ export const TodoProvider = ({ children }) => {
         setFilter,
         sortBy,
         setSortBy,
+        power,
+        setPower,
         selectedTodos,
+        poweredTodo,
         addTodo,
         completeTodo,
         removeTodo,
