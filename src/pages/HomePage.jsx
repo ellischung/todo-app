@@ -5,6 +5,8 @@ import Filter from "../components/Filter";
 import PowerButton from "../components/PowerButton";
 import { useTodo } from "../contexts/todoContext";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import variants from "../utils/animationVariants";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 
 const HomePage = () => {
@@ -12,17 +14,35 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="todo-list">
+    <div>
       <Search />
       <SortDropdown />
       <Filter />
       {!power
-        ? selectedTodos.map((todo) => <Todo key={todo.id} todo={todo} />)
-        : poweredTodo && <Todo key={poweredTodo.id} todo={poweredTodo} />}
+        ? selectedTodos.map((todo, index) => (
+            <motion.div
+              key={todo.id}
+              initial={variants.initial}
+              animate={variants.animate}
+              transition={{ delay: index * 0.2 }}
+            >
+              <Todo todo={todo} />
+            </motion.div>
+          ))
+        : poweredTodo && (
+            <motion.div initial={variants.initial} animate={variants.animate}>
+              <Todo key={poweredTodo.id} todo={poweredTodo} />
+            </motion.div>
+          )}
       <PowerButton />
-      <button onClick={() => navigate("/add")}>
+      <motion.button
+        initial={variants.initial}
+        animate={variants.animate}
+        transition={{ delay: (selectedTodos.length + 1) * 0.2 }}
+        onClick={() => navigate("/add")}
+      >
         <AddTaskIcon style={{ fontSize: "124px" }} />
-      </button>
+      </motion.button>
     </div>
   );
 };

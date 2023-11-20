@@ -1,16 +1,23 @@
 import React from "react";
 import { useTodo } from "../contexts/todoContext";
+import { motion } from "framer-motion";
+import variants from "../utils/animationVariants";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 function PowerButton() {
-  const { power, setPower } = useTodo();
+  const { power, setPower, selectedTodos } = useTodo();
 
   const handleClick = () => {
     setPower(!power);
   };
 
   return (
-    <div className="pt-9 pb-3">
+    <motion.div
+      initial={variants.initial}
+      animate={variants.animate}
+      transition={{ delay: selectedTodos.length * 0.2 }}
+      className="pt-9 pb-3"
+    >
       <button
         className="font-bold border-4 rounded-full p-3"
         onClick={handleClick}
@@ -20,7 +27,7 @@ function PowerButton() {
           style={{ fontSize: "80px", color: power ? "green" : "red" }}
         />
       </button>
-    </div>
+    </motion.div>
   );
 }
 

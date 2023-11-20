@@ -21,7 +21,7 @@ function Filter() {
   };
 
   return (
-    <div className="relative inline-block text-black w-56 ml-2">
+    <div className="relative inline-block text-black w-full sm:w-44 ml-4">
       <div
         className="bg-secondary font-bold rounded-full border p-2 cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
@@ -29,7 +29,7 @@ function Filter() {
         Filter
       </div>
       {isOpen && (
-        <div className="bg-secondary absolute border mt-1 rounded w-full">
+        <div className="bg-secondary absolute border mt-1 rounded w-full text-left">
           <div key="" className="p-2">
             <label className="flex items-center space-x-2">
               <input

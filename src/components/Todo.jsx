@@ -40,7 +40,7 @@ function Todo({ todo }) {
 
   return (
     <div
-      className={`bg-card max-w-md mx-auto rounded-3xl border p-4 my-4 hover:bg-hover cursor-pointer min-h-[300px]`}
+      className={`bg-card max-w-md mx-auto rounded-3xl border p-4 my-8 transition duration-500 ease-in-out hover:bg-hover cursor-pointer min-h-[300px]`}
       style={{
         textDecoration: todo.isCompleted ? "line-through" : "",
         borderColor: alertColor,
