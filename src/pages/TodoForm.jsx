@@ -16,6 +16,7 @@ function TodoForm() {
     subtasks: [],
   };
   const [todo, setTodo] = useState(initialValues);
+  const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [selectedPriority, setSelectedPriority] = useState(null);
   const [selectedComplexity, setSelectedComplexity] = useState(null);
   const [subtask, setSubtask] = useState({ name: "", isChecked: false });
@@ -87,7 +88,7 @@ function TodoForm() {
           onChange={handleChange}
         />
         <label>Set Priority Level:</label>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+        {levels.map((value) => (
           <button
             key={value}
             onClick={(e) => {
@@ -103,7 +104,7 @@ function TodoForm() {
           </button>
         ))}
         <label>Set Complexity Level:</label>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+        {levels.map((value) => (
           <button
             key={value}
             onClick={(e) => {
@@ -134,16 +135,18 @@ function TodoForm() {
           value={todo.time}
           onChange={handleChange}
         />
-        <label>Add Subtask:</label>
-        <input
-          type="text"
-          className="input"
-          name="subtask"
-          placeholder="Add a subtask.."
-          value={subtask.name}
-          onChange={(e) => setSubtask({ ...subtask, name: e.target.value })}
-        />
-        <button onClick={(e) => addSubtask(e)}>+</button>
+        <form onSubmit={(e) => addSubtask(e)}>
+          <label>Add Subtask:</label>
+          <input
+            type="text"
+            className="input"
+            name="subtask"
+            placeholder="Add a subtask.."
+            value={subtask.name}
+            onChange={(e) => setSubtask({ ...subtask, name: e.target.value })}
+          />
+          <button onClick={(e) => addSubtask(e)}>+</button>
+        </form>
         {subtasks.map((subtask, index) => (
           <div>
             <input
