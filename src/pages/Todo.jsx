@@ -45,6 +45,7 @@ function Todo() {
 
   return (
     <div>
+      <button onClick={() => navigate("/")}>&larr;</button>
       <h1 className="text-3xl font-bold">{todo.name}</h1>
       <p>Priority Level: {todo.priority}</p>
       <p>Complexity Level: {todo.complexity}</p>

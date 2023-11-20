@@ -4,10 +4,12 @@ import Search from "../components/Search";
 import Filter from "../components/Filter";
 import PowerButton from "../components/PowerButton";
 import { useTodo } from "../contexts/todoContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import AddTaskIcon from "@mui/icons-material/AddTask";
 
 const HomePage = () => {
   const { selectedTodos, power, poweredTodo } = useTodo();
+  const navigate = useNavigate();
 
   return (
     <div className="todo-list">
@@ -18,11 +20,9 @@ const HomePage = () => {
         ? selectedTodos.map((todo) => <Todo key={todo.id} todo={todo} />)
         : poweredTodo && <Todo key={poweredTodo.id} todo={poweredTodo} />}
       <PowerButton />
-      <Link to="/add">
-        <button className="bg-secondary text-black font-bold border rounded-full px-3 py-2">
-          Add Task
-        </button>
-      </Link>
+      <button onClick={() => navigate("/add")}>
+        <AddTaskIcon style={{ fontSize: "124px" }} />
+      </button>
     </div>
   );
 };

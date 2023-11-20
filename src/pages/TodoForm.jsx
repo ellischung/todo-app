@@ -84,6 +84,7 @@ function TodoForm() {
 
   return (
     <div>
+      <button onClick={() => navigate("/")}>&larr;</button>
       <h1>{todoExists ? "Edit Task" : "Add New Task"}</h1>
       <form onSubmit={handleSubmit}>
         <label>Task Name:</label>
