@@ -19,7 +19,7 @@ function Todo({ todo }) {
 
   return (
     <div
-      className="todo"
+      className="bg-card"
       style={{
         textDecoration: todo.isCompleted ? "line-through" : "",
         border: `1px solid ${alertColor}`,
@@ -27,7 +27,9 @@ function Todo({ todo }) {
         margin: "10px 0",
       }}
     >
-      <Link to={`/todo/${todo.id}`}>{todo.name}</Link>
+      <Link className="text-3xl font-bold underline" to={`/todo/${todo.id}`}>
+        {todo.name}
+      </Link>
       <div>
         <p>Priority Level: {todo.priority}</p>
         <p>Complexity Level: {todo.complexity}</p>

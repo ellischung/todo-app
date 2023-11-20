@@ -10,7 +10,6 @@ export function useTodo() {
 }
 
 export const TodoProvider = ({ children }) => {
-  const { id } = useParams();
   const navigate = useNavigate();
   const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
   const [todos, setTodos] = useState(storedTodos);

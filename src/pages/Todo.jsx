@@ -43,7 +43,7 @@ function Todo() {
 
   return (
     <div>
-      <h1>{todo.name}</h1>
+      <h1 className="text-3xl font-bold underline">{todo.name}</h1>
       <p>Priority Level: {todo.priority}</p>
       <p>Complexity Level: {todo.complexity}</p>
       <p style={{ color: alertColor }}>

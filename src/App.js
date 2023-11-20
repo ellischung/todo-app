@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import Todo from "./pages/Todo";
 import TodoForm from "./pages/TodoForm";
 import { TodoProvider } from "./contexts/todoContext";
-import "./styles.css";
+import "./App.css";
 
 function App() {
   return (
