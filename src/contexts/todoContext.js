@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { uid } from "uid";
 
 export const TodoContext = createContext();

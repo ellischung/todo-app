@@ -5,6 +5,7 @@ import { useTodo } from "../contexts/todoContext";
 function TodoForm() {
   const { id } = useParams();
   const { getTodo, addTodo, editTodo } = useTodo();
+  const todoExists = getTodo(id);
   const initialValues = {
     name: "",
     priority: 0,
@@ -15,20 +16,17 @@ function TodoForm() {
     isCompleted: false,
     subtasks: [],
   };
-  const [todo, setTodo] = useState(initialValues);
+  const [todo, setTodo] = useState(
+    todoExists
+      ? { ...todoExists, subtasks: todoExists.subtasks }
+      : initialValues
+  );
   const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [subtask, setSubtask] = useState({ name: "", isChecked: false });
-  const [subtasks, setSubtasks] = useState([]);
+  const [subtasks, setSubtasks] = useState(
+    todoExists ? todoExists.subtasks : []
+  );
   const navigate = useNavigate();
-  const todoExists = getTodo(id);
-
-  if (todoExists && !todo.id) {
-    setTodo({
-      ...todoExists,
-      subtasks: todoExists.subtasks,
-    });
-    setSubtasks(todoExists.subtasks);
-  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
