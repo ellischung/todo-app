@@ -19,7 +19,9 @@ const HomePage = () => {
         : poweredTodo && <Todo key={poweredTodo.id} todo={poweredTodo} />}
       <PowerButton />
       <Link to="/add">
-        <button className="">Add Task</button>
+        <button className="bg-secondary text-black font-bold border rounded-full px-3 py-2">
+          Add Task
+        </button>
       </Link>
     </div>
   );

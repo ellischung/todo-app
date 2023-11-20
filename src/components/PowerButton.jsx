@@ -9,8 +9,13 @@ function PowerButton() {
   };
 
   return (
-    <div>
-      <button onClick={handleClick}>{power ? "POWER ON" : "POWER OFF"}</button>
+    <div className="pt-6 pb-3">
+      <button
+        className="bg-secondary text-black font-bold border rounded-full px-3 py-2"
+        onClick={handleClick}
+      >
+        {power ? "&#10003;" : "POWER OFF"}
+      </button>
     </div>
   );
 }

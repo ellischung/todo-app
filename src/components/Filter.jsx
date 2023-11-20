@@ -7,9 +7,12 @@ function Filter() {
   const tags = new Set();
 
   todos.forEach((todo) => {
-    todo.tags.split(",").forEach((tag) => {
-      tags.add(tag.trim());
-    });
+    const todoTags = todo.tags.trim();
+    if (todoTags !== "") {
+      todoTags.split(",").forEach((tag) => {
+        tags.add(tag.trim());
+      });
+    }
   });
 
   const handleChange = (value) => {
