@@ -98,6 +98,7 @@ function TodoForm() {
         <label>Set Priority Level:</label>
         {levels.map((value) => (
           <button
+            className="text-black"
             type="button"
             key={value}
             onClick={() => handleLevelChange("priority", value)}
@@ -111,6 +112,7 @@ function TodoForm() {
         <label>Set Complexity Level:</label>
         {levels.map((value) => (
           <button
+            className="text-black"
             type="button"
             key={value}
             onClick={() => handleLevelChange("complexity", value)}
