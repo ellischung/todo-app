@@ -62,14 +62,13 @@ function TodoForm() {
     setSubtask({ name: "", isChecked: false });
   };
 
-  const removeSubtask = (e, taskToRemove) => {
-    e.preventDefault();
-    setSubtasks([...subtasks].filter((task) => task != taskToRemove));
+  const removeSubtask = (taskToRemove) => {
+    setSubtasks(subtasks.filter((task) => task !== taskToRemove));
   };
 
   const editSubtask = (e, index) => {
     setSubtasks(
-      [...subtasks].map((subtask, i) =>
+      subtasks.map((subtask, i) =>
         i === index ? { ...subtask, name: e.target.value } : subtask
       )
     );
@@ -90,9 +89,9 @@ function TodoForm() {
         <label>Set Priority Level:</label>
         {levels.map((value) => (
           <button
+            type="button"
             key={value}
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               handleChange({ target: { name: "priority", value } });
               setSelectedPriority(value);
             }}
@@ -106,9 +105,9 @@ function TodoForm() {
         <label>Set Complexity Level:</label>
         {levels.map((value) => (
           <button
+            type="button"
             key={value}
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               handleChange({ target: { name: "complexity", value } });
               setSelectedComplexity(value);
             }}
@@ -135,7 +134,7 @@ function TodoForm() {
           value={todo.time}
           onChange={handleChange}
         />
-        <form onSubmit={(e) => addSubtask(e)}>
+        <form onSubmit={addSubtask}>
           <label>Add Subtask:</label>
           <input
             type="text"
@@ -145,16 +144,17 @@ function TodoForm() {
             value={subtask.name}
             onChange={(e) => setSubtask({ ...subtask, name: e.target.value })}
           />
-          <button onClick={(e) => addSubtask(e)}>+</button>
+          <button onClick={addSubtask}>+</button>
         </form>
         {subtasks.map((subtask, index) => (
-          <div>
+          <div key={index}>
             <input
-              key={index}
               value={subtask.name}
               onChange={(e) => editSubtask(e, index)}
             />
-            <button onClick={(e) => removeSubtask(e, subtask)}>x</button>
+            <button type="button" onClick={() => removeSubtask(subtask)}>
+              x
+            </button>
           </div>
         ))}
         <label>Add Tags:</label>

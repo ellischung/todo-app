@@ -71,6 +71,7 @@ function Todo() {
       <p>Checklist for subtasks:</p>
       {subtasks.map((subtask, index) => (
         <div
+          key={index}
           style={{
             textDecoration: subtask.isChecked ? "line-through" : "",
           }}
