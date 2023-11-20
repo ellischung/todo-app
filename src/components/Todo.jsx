@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
 import { convertTime } from "../utils/convertTime";
 import ProgressBar from "./ProgressBar";
@@ -17,26 +17,35 @@ function Todo({ todo }) {
     }
   }
 
+  const handleComplete = (e) => {
+    e.stopPropagation();
+    completeTodo(todo);
+  };
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    navigate(`/edit/${todo.id}`);
+  };
+
   return (
     <div
-      className="bg-card"
+      className={`bg-card max-w-md mx-auto rounded-3xl border p-4 my-4 hover:bg-hover cursor-pointer`}
       style={{
         textDecoration: todo.isCompleted ? "line-through" : "",
-        border: `1px solid ${alertColor}`,
-        padding: "10px",
-        margin: "10px 0",
+        borderColor: alertColor,
       }}
+      onClick={() => navigate(`/todo/${todo.id}`)}
     >
-      <Link className="text-3xl font-bold underline" to={`/todo/${todo.id}`}>
-        {todo.name}
-      </Link>
       <div>
-        <p>Priority Level: {todo.priority}</p>
-        <p>Complexity Level: {todo.complexity}</p>
-        <p style={{ color: alertColor }}>
+        <p className="text-3xl font-bold">{todo.name}</p>
+        <p className="text-secondary pt-4">Priority Level: {todo.priority}</p>
+        <p className="text-secondary pt-1">
+          Complexity Level: {todo.complexity}
+        </p>
+        <p className="text-secondary pt-1" style={{ color: alertColor }}>
           {todo.date && `Due Date: ${todo.date} ${convertTime(todo.time)}`}
         </p>
-        <p>
+        <p className="pt-1">
           {todo.tags
             .split(",")
             .map(
@@ -50,10 +59,10 @@ function Todo({ todo }) {
         </p>
       </div>
       <div>
-        <button onClick={() => completeTodo(todo)}>
+        <button onClick={handleComplete}>
           {todo.isCompleted ? "Uncomplete" : "Complete"}
         </button>
-        <button onClick={() => navigate(`/edit/${todo.id}`)}>Edit</button>
+        <button onClick={handleEdit}>Edit</button>
       </div>
       <p>Task Completed: </p>
       <ProgressBar

@@ -5,8 +5,7 @@ module.exports = {
     extend: {
       colors: {
         card: "#212121",
-        hoverCard: "#3D3D3D",
-        primary: "#FFFFFF",
+        hover: "#3D3D3D",
         secondary: "#AAAAAA",
       },
     },
