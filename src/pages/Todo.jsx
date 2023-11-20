@@ -9,7 +9,6 @@ function Todo() {
   const navigate = useNavigate();
   const { getTodo, removeTodo, editTodo } = useTodo();
   const todo = getTodo(id);
-  const [progress, setProgress] = useState(0);
   const [subtasks, setSubtasks] = useState(todo.subtasks);
 
   if (!todo) return <div>No todo found</div>;
@@ -25,10 +24,6 @@ function Todo() {
   }
 
   useEffect(() => {
-    const numCheckedSubtasks = subtasks.filter(
-      (subtask) => subtask.isChecked
-    ).length;
-    setProgress(Math.floor((numCheckedSubtasks / subtasks.length) * 100) || 0);
     editTodo({ ...todo, subtasks: subtasks });
   }, [subtasks]);
 
@@ -67,7 +62,15 @@ function Todo() {
           )}
       </p>
       <p>Task Progress:</p>
-      <ProgressBar progress={progress} />
+      <ProgressBar
+        progress={
+          Math.floor(
+            (subtasks.filter((subtask) => subtask.isChecked).length /
+              subtasks.length) *
+              100
+          ) || 0
+        }
+      />
       <p>Checklist for subtasks:</p>
       {subtasks.map((subtask, index) => (
         <div

@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
 import { convertTime } from "../utils/convertTime";
@@ -6,7 +5,6 @@ import ProgressBar from "./ProgressBar";
 
 function Todo({ todo }) {
   const { completeTodo } = useTodo();
-  const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
 
   let alertColor = "";
@@ -18,15 +16,6 @@ function Todo({ todo }) {
       alertColor = "orange";
     }
   }
-
-  useEffect(() => {
-    const numCheckedSubtasks = todo.subtasks.filter(
-      (subtask) => subtask.isChecked
-    ).length;
-    setProgress(
-      Math.floor((numCheckedSubtasks / todo.subtasks.length) * 100) || 0
-    );
-  }, [todo.subtasks]);
 
   return (
     <div
@@ -65,7 +54,15 @@ function Todo({ todo }) {
         <button onClick={() => navigate(`/edit/${todo.id}`)}>Edit</button>
       </div>
       <p>Task Completed: </p>
-      <ProgressBar progress={progress} />
+      <ProgressBar
+        progress={
+          Math.floor(
+            (todo.subtasks.filter((subtask) => subtask.isChecked).length /
+              todo.subtasks.length) *
+              100
+          ) || 0
+        }
+      />
     </div>
   );
 }
