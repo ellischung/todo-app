@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Todo from "./pages/Todo";
 import TodoForm from "./pages/TodoForm";
@@ -9,9 +9,6 @@ import "./App.css";
 function App() {
   return (
     <Router>
-      <nav>
-        <Link to="/">Home</Link>
-      </nav>
       <TodoProvider>
         <Routes>
           <Route exact path="/" element={<HomePage />} />

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTodo } from "../contexts/todoContext";
 
 function Filter() {
   const { todos, filter, setFilter } = useTodo();
+  const [isOpen, setIsOpen] = useState(false);
   const tags = new Set();
 
   todos.forEach((todo) => {
@@ -11,19 +12,48 @@ function Filter() {
     });
   });
 
-  const handleChange = (e) => {
-    setFilter(e.target.value);
+  const handleChange = (value) => {
+    setFilter(value);
+    setIsOpen(false);
   };
 
   return (
-    <div>
-      <label>Filter</label>
-      <select id="filter" defaultValue={filter} onChange={handleChange}>
-        <option value="">None</option>
-        {[...tags].map((tag) => (
-          <option value={tag}>{tag}</option>
-        ))}
-      </select>
+    <div className="relative inline-block text-black w-56 ml-2">
+      <div
+        className="bg-secondary font-bold rounded-full border p-2 cursor-pointer"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        Filter
+      </div>
+      {isOpen && (
+        <div className="bg-secondary absolute border mt-1 rounded w-full">
+          <div key="" className="p-2">
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                value=""
+                checked={filter === ""}
+                onChange={() => handleChange("")}
+                className="form-radio"
+              />
+              <span>None</span>
+            </label>
+          </div>
+          {[...tags].map((tag) => (
+            <div key={tag} className="p-2">
+              <label className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  value={tag}
+                  checked={filter === tag}
+                  onChange={() => handleChange(tag)}
+                />
+                <span>{tag}</span>
+              </label>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

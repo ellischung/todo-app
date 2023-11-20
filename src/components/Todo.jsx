@@ -51,15 +51,21 @@ function Todo({ todo }) {
         <p className="text-3xl font-bold" style={{ color: alertColor }}>
           {todo.name}
         </p>
-        <p className="text-secondary pt-4">
-          Priority Level: {levelToText(todo.priority)} ({todo.priority}/10)
+        <p className="text-secondary pt-4" style={{ color: alertColor }}>
+          &#128197;{" "}
+          {todo.date
+            ? `Due Date: ${todo.date} ${convertTime(todo.time)}`
+            : "Due date unspecified"}
         </p>
         <p className="text-secondary pt-1">
-          Complexity Level: {levelToText(todo.complexity)} ({todo.complexity}
+          <span className="text-black text-xl">&uarr; </span> Priority Level:{" "}
+          {levelToText(todo.priority)} ({todo.priority}
           /10)
         </p>
-        <p className="text-secondary pt-1" style={{ color: alertColor }}>
-          {todo.date && `Due Date: ${todo.date} ${convertTime(todo.time)}`}
+        <p className="text-secondary pt-1">
+          <span className="text-black text-xl">&oplus; </span>Complexity Level:{" "}
+          {levelToText(todo.complexity)} ({todo.complexity}
+          /10)
         </p>
         <p className="pt-2">
           {todo.tags
