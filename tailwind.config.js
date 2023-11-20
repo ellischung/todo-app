@@ -7,6 +7,7 @@ module.exports = {
         card: "#212121",
         hover: "#3D3D3D",
         secondary: "#AAAAAA",
+        tag: "#636363",
       },
     },
   },
