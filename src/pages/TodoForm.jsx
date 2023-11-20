@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
+import { uid } from "uid";
 
 function TodoForm() {
   const { id } = useParams();
@@ -22,7 +23,11 @@ function TodoForm() {
       : initialValues
   );
   const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const [subtask, setSubtask] = useState({ name: "", isChecked: false });
+  const [subtask, setSubtask] = useState({
+    id: uid(),
+    name: "",
+    isChecked: false,
+  });
   const [subtasks, setSubtasks] = useState(
     todoExists ? todoExists.subtasks : []
   );
@@ -60,17 +65,19 @@ function TodoForm() {
     e.preventDefault();
     if (!subtask.name) return;
     setSubtasks([...subtasks, subtask]);
-    setSubtask({ name: "", isChecked: false });
+    setSubtask({ id: uid(), name: "", isChecked: false });
   };
 
   const removeSubtask = (taskToRemove) => {
     setSubtasks(subtasks.filter((task) => task !== taskToRemove));
   };
 
-  const editSubtask = (e, index) => {
+  const editSubtask = (e, id) => {
     setSubtasks(
-      subtasks.map((subtask, i) =>
-        i === index ? { ...subtask, name: e.target.value } : subtask
+      subtasks.map((prevSubtask) =>
+        prevSubtask.id === id
+          ? { ...prevSubtask, name: e.target.value }
+          : prevSubtask
       )
     );
   };
@@ -141,11 +148,11 @@ function TodoForm() {
           />
           <button onClick={addSubtask}>+</button>
         </form>
-        {subtasks.map((subtask, index) => (
-          <div key={index}>
+        {subtasks.map((subtask) => (
+          <div key={subtask.id}>
             <input
               value={subtask.name}
-              onChange={(e) => editSubtask(e, index)}
+              onChange={(e) => editSubtask(e, subtask.id)}
             />
             <button type="button" onClick={() => removeSubtask(subtask)}>
               x

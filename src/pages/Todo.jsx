@@ -27,10 +27,12 @@ function Todo() {
     editTodo({ ...todo, subtasks: subtasks });
   }, [subtasks]);
 
-  const handleSubtask = (index) => {
+  const handleSubtask = (id) => {
     setSubtasks(
-      [...subtasks].map((subtask, i) =>
-        i === index ? { ...subtask, isChecked: !subtask.isChecked } : subtask
+      [...subtasks].map((subtask) =>
+        subtask.id === id
+          ? { ...subtask, isChecked: !subtask.isChecked }
+          : subtask
       )
     );
   };
@@ -72,9 +74,9 @@ function Todo() {
         }
       />
       <p>Checklist for subtasks:</p>
-      {subtasks.map((subtask, index) => (
+      {subtasks.map((subtask) => (
         <div
-          key={index}
+          key={subtask.id}
           style={{
             textDecoration: subtask.isChecked ? "line-through" : "",
           }}
@@ -82,7 +84,7 @@ function Todo() {
           {subtask.name}
           <button
             onClick={() => {
-              handleSubtask(index);
+              handleSubtask(subtask.id);
             }}
           >
             &#10003;
