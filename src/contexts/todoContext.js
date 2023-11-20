@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { uid } from "uid";
 
 export const TodoContext = createContext();
@@ -10,7 +10,6 @@ export function useTodo() {
 }
 
 export const TodoProvider = ({ children }) => {
-  const { id } = useParams();
   const navigate = useNavigate();
   const storedTodos = JSON.parse(localStorage.getItem("todos")) || [];
   const [todos, setTodos] = useState(storedTodos);

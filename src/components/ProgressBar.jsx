@@ -9,13 +9,12 @@ const ProgressBar = ({ progress }) => {
 
   const Childdiv = {
     width: `${progress}%`,
-    backgroundColor: "#0d99ff",
+    backgroundColor: "#636363",
     borderRadius: 40,
     textAlign: "right",
   };
 
   const progresstext = {
-    fontFamily: "Lucida Console",
     color: "black",
     fontWeight: "bold",
   };

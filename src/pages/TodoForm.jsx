@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
+import { uid } from "uid";
 
 function TodoForm() {
   const { id } = useParams();
   const { getTodo, addTodo, editTodo } = useTodo();
+  const todoExists = getTodo(id);
   const initialValues = {
     name: "",
     priority: 0,
@@ -15,26 +17,31 @@ function TodoForm() {
     isCompleted: false,
     subtasks: [],
   };
-  const [todo, setTodo] = useState(initialValues);
-  const [selectedPriority, setSelectedPriority] = useState(null);
-  const [selectedComplexity, setSelectedComplexity] = useState(null);
-  const [subtask, setSubtask] = useState({ name: "", isChecked: false });
-  const [subtasks, setSubtasks] = useState([]);
+  const [todo, setTodo] = useState(
+    todoExists
+      ? { ...todoExists, subtasks: todoExists.subtasks }
+      : initialValues
+  );
+  const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [subtask, setSubtask] = useState({
+    id: uid(),
+    name: "",
+    isChecked: false,
+  });
+  const [subtasks, setSubtasks] = useState(
+    todoExists ? todoExists.subtasks : []
+  );
   const navigate = useNavigate();
-  const todoExists = getTodo(id);
-
-  if (todoExists && !todo.id) {
-    setTodo({
-      ...todoExists,
-      subtasks: todoExists.subtasks,
-    });
-    setSubtasks(todoExists.subtasks);
-    setSelectedPriority(todoExists.priority);
-    setSelectedComplexity(todoExists.complexity);
-  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setTodo((prevTodo) => ({
+      ...prevTodo,
+      [name]: value,
+    }));
+  };
+
+  const handleLevelChange = (name, value) => {
     setTodo((prevTodo) => ({
       ...prevTodo,
       [name]: value,
@@ -58,24 +65,26 @@ function TodoForm() {
     e.preventDefault();
     if (!subtask.name) return;
     setSubtasks([...subtasks, subtask]);
-    setSubtask({ name: "", isChecked: false });
+    setSubtask({ id: uid(), name: "", isChecked: false });
   };
 
-  const removeSubtask = (e, taskToRemove) => {
-    e.preventDefault();
-    setSubtasks([...subtasks].filter((task) => task != taskToRemove));
+  const removeSubtask = (taskToRemove) => {
+    setSubtasks(subtasks.filter((task) => task !== taskToRemove));
   };
 
-  const editSubtask = (e, index) => {
+  const editSubtask = (e, id) => {
     setSubtasks(
-      [...subtasks].map((subtask, i) =>
-        i === index ? { ...subtask, name: e.target.value } : subtask
+      subtasks.map((prevSubtask) =>
+        prevSubtask.id === id
+          ? { ...prevSubtask, name: e.target.value }
+          : prevSubtask
       )
     );
   };
 
   return (
     <div>
+      <button onClick={() => navigate("/")}>&larr;</button>
       <h1>{todoExists ? "Edit Task" : "Add New Task"}</h1>
       <form onSubmit={handleSubmit}>
         <label>Task Name:</label>
@@ -87,32 +96,28 @@ function TodoForm() {
           onChange={handleChange}
         />
         <label>Set Priority Level:</label>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+        {levels.map((value) => (
           <button
+            className="text-black"
+            type="button"
             key={value}
-            onClick={(e) => {
-              e.preventDefault();
-              handleChange({ target: { name: "priority", value } });
-              setSelectedPriority(value);
-            }}
+            onClick={() => handleLevelChange("priority", value)}
             style={{
-              backgroundColor: selectedPriority === value ? "blue" : "white",
+              backgroundColor: todo.priority === value ? "blue" : "white",
             }}
           >
             {value}
           </button>
         ))}
         <label>Set Complexity Level:</label>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+        {levels.map((value) => (
           <button
+            className="text-black"
+            type="button"
             key={value}
-            onClick={(e) => {
-              e.preventDefault();
-              handleChange({ target: { name: "complexity", value } });
-              setSelectedComplexity(value);
-            }}
+            onClick={() => handleLevelChange("complexity", value)}
             style={{
-              backgroundColor: selectedComplexity === value ? "blue" : "white",
+              backgroundColor: todo.complexity === value ? "blue" : "white",
             }}
           >
             {value}
@@ -134,24 +139,27 @@ function TodoForm() {
           value={todo.time}
           onChange={handleChange}
         />
-        <label>Add Subtask:</label>
-        <input
-          type="text"
-          className="input"
-          name="subtask"
-          placeholder="Add a subtask.."
-          value={subtask.name}
-          onChange={(e) => setSubtask({ ...subtask, name: e.target.value })}
-        />
-        <button onClick={(e) => addSubtask(e)}>+</button>
-        {subtasks.map((subtask, index) => (
-          <div>
+        <form onSubmit={addSubtask}>
+          <label>Add Subtask:</label>
+          <input
+            type="text"
+            className="input"
+            name="subtask"
+            placeholder="Add a subtask.."
+            value={subtask.name}
+            onChange={(e) => setSubtask({ ...subtask, name: e.target.value })}
+          />
+          <button onClick={addSubtask}>+</button>
+        </form>
+        {subtasks.map((subtask) => (
+          <div key={subtask.id}>
             <input
-              key={index}
               value={subtask.name}
-              onChange={(e) => editSubtask(e, index)}
+              onChange={(e) => editSubtask(e, subtask.id)}
             />
-            <button onClick={(e) => removeSubtask(e, subtask)}>x</button>
+            <button type="button" onClick={() => removeSubtask(subtask)}>
+              x
+            </button>
           </div>
         ))}
         <label>Add Tags:</label>
