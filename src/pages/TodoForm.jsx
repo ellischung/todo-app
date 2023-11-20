@@ -17,8 +17,6 @@ function TodoForm() {
   };
   const [todo, setTodo] = useState(initialValues);
   const levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const [selectedPriority, setSelectedPriority] = useState(null);
-  const [selectedComplexity, setSelectedComplexity] = useState(null);
   const [subtask, setSubtask] = useState({ name: "", isChecked: false });
   const [subtasks, setSubtasks] = useState([]);
   const navigate = useNavigate();
@@ -30,12 +28,17 @@ function TodoForm() {
       subtasks: todoExists.subtasks,
     });
     setSubtasks(todoExists.subtasks);
-    setSelectedPriority(todoExists.priority);
-    setSelectedComplexity(todoExists.complexity);
   }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setTodo((prevTodo) => ({
+      ...prevTodo,
+      [name]: value,
+    }));
+  };
+
+  const handleLevelChange = (name, value) => {
     setTodo((prevTodo) => ({
       ...prevTodo,
       [name]: value,
@@ -91,12 +94,9 @@ function TodoForm() {
           <button
             type="button"
             key={value}
-            onClick={() => {
-              handleChange({ target: { name: "priority", value } });
-              setSelectedPriority(value);
-            }}
+            onClick={() => handleLevelChange("priority", value)}
             style={{
-              backgroundColor: selectedPriority === value ? "blue" : "white",
+              backgroundColor: todo.priority === value ? "blue" : "white",
             }}
           >
             {value}
@@ -107,12 +107,9 @@ function TodoForm() {
           <button
             type="button"
             key={value}
-            onClick={() => {
-              handleChange({ target: { name: "complexity", value } });
-              setSelectedComplexity(value);
-            }}
+            onClick={() => handleLevelChange("complexity", value)}
             style={{
-              backgroundColor: selectedComplexity === value ? "blue" : "white",
+              backgroundColor: todo.complexity === value ? "blue" : "white",
             }}
           >
             {value}
