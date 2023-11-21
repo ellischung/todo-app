@@ -40,12 +40,9 @@ export const TodoProvider = ({ children }) => {
       }
     });
 
-  const tempTodo = [...todos]
-    .filter((todo) => !todo.isCompleted)
-    .sort((a, b) => b.priority + b.complexity - (a.priority + a.complexity))[0];
-
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
+    createPoweredTodo();
   }, [todos]);
 
   const createPoweredTodo = () => {
@@ -105,7 +102,6 @@ export const TodoProvider = ({ children }) => {
         removeTodo,
         getTodo,
         editTodo,
-        tempTodo,
       }}
     >
       {children}
