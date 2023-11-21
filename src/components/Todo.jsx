@@ -52,31 +52,34 @@ function Todo({ todo }) {
           {todo.name}
         </p>
         <p className="text-secondary pt-4" style={{ color: alertColor }}>
-          &#128197;{" "}
+          &#128197; Due Date:{" "}
           {todo.date
-            ? `Due Date: ${todo.date} ${convertTime(todo.time)}`
-            : "Due date unspecified"}
+            ? `${todo.date} ${convertTime(todo.time)}`
+            : "Not specified"}
         </p>
         <p className="text-secondary pt-1">
           <span className="text-black text-xl">&uarr; </span> Priority Level:{" "}
-          {levelToText(todo.priority)} ({todo.priority}
-          /10)
+          {todo.priority
+            ? `${levelToText(todo.priority)} (${todo.priority}/10)`
+            : "Not specified"}
         </p>
         <p className="text-secondary pt-1">
           <span className="text-black text-xl">&oplus; </span>Complexity Level:{" "}
-          {levelToText(todo.complexity)} ({todo.complexity}
-          /10)
+          {todo.complexity
+            ? `${levelToText(todo.complexity)} (${todo.complexity}/10)`
+            : "Not specified"}
         </p>
         <p className="pt-2">
-          {todo.tags
-            .split(",")
-            .map((tag) =>
-              tag ? (
-                <span className=" bg-tag rounded-full text-sm px-2 py-1 m-1">
-                  {tag.trim()}
-                </span>
-              ) : null
-            )}
+          {todo.tags &&
+            todo.tags
+              .split(",")
+              .map((tag) =>
+                tag ? (
+                  <span className=" bg-tag rounded-full text-sm px-2 py-1 m-1">
+                    {tag.trim()}
+                  </span>
+                ) : null
+              )}
         </p>
       </div>
       <div className="flex justify-center pt-3">
@@ -98,11 +101,13 @@ function Todo({ todo }) {
         progress={
           todo.isCompleted
             ? 100
-            : Math.floor(
+            : todo.subtasks
+            ? Math.floor(
                 (todo.subtasks.filter((subtask) => subtask.isChecked).length /
                   todo.subtasks.length) *
                   100
               ) || 0
+            : 0
         }
       />
     </div>

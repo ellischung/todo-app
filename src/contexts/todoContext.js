@@ -17,6 +17,7 @@ export const TodoProvider = ({ children }) => {
   const [filter, setFilter] = useState("");
   const [sortBy, setSortBy] = useState("default");
   const [power, setPower] = useState(false);
+  const [poweredTodo, setPoweredTodo] = useState(null);
 
   const selectedTodos = [...todos]
     .filter((todo) => todo.name.includes(search) && todo.tags.includes(filter))
@@ -39,13 +40,22 @@ export const TodoProvider = ({ children }) => {
       }
     });
 
-  const poweredTodo = [...todos]
+  const tempTodo = [...todos]
     .filter((todo) => !todo.isCompleted)
     .sort((a, b) => b.priority + b.complexity - (a.priority + a.complexity))[0];
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
+
+  const createPoweredTodo = () => {
+    const todo = [...todos]
+      .filter((todo) => !todo.isCompleted)
+      .sort(
+        (a, b) => b.priority + b.complexity - (a.priority + a.complexity)
+      )[0];
+    setPoweredTodo(todo);
+  };
 
   const addTodo = (todo) => {
     const newTodos = [...todos, { ...todo, id: uid() }];
@@ -62,6 +72,7 @@ export const TodoProvider = ({ children }) => {
 
   const removeTodo = (todo) => {
     setTodos((todos) => todos.filter((t) => t.id !== todo.id));
+    if (power) setPower(!power);
     navigate("/");
   };
 
@@ -88,11 +99,13 @@ export const TodoProvider = ({ children }) => {
         setPower,
         selectedTodos,
         poweredTodo,
+        createPoweredTodo,
         addTodo,
         completeTodo,
         removeTodo,
         getTodo,
         editTodo,
+        tempTodo,
       }}
     >
       {children}

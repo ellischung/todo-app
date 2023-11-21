@@ -7,14 +7,14 @@ import { useTodo } from "../contexts/todoContext";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import variants from "../utils/animationVariants";
-import AddTaskIcon from "@mui/icons-material/AddTask";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 const HomePage = () => {
   const { selectedTodos, power, poweredTodo } = useTodo();
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="mb-10">
       <Search />
       <SortDropdown />
       <Filter />
@@ -41,7 +41,7 @@ const HomePage = () => {
         transition={{ delay: (selectedTodos.length + 1) * 0.2 }}
         onClick={() => navigate("/add")}
       >
-        <AddTaskIcon style={{ fontSize: "124px" }} />
+        <AddCircleIcon style={{ fontSize: "80px" }} />
       </motion.button>
     </div>
   );

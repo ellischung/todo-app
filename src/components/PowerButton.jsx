@@ -5,10 +5,11 @@ import variants from "../utils/animationVariants";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 function PowerButton() {
-  const { power, setPower, selectedTodos } = useTodo();
+  const { power, setPower, selectedTodos, createPoweredTodo } = useTodo();
 
   const handleClick = () => {
     setPower(!power);
+    createPoweredTodo();
   };
 
   return (
@@ -16,17 +17,16 @@ function PowerButton() {
       initial={variants.initial}
       animate={variants.animate}
       transition={{ delay: selectedTodos.length * 0.2 }}
-      className="pt-9 pb-3"
+      className="pt-9 pb-5"
     >
-      <button
-        className="font-bold border-4 rounded-full p-3"
+      <motion.button
+        whileTap={{ scale: 0.9 }}
         onClick={handleClick}
-        style={{ borderColor: power ? "green" : "red" }}
+        className="font-bold border-4 rounded-full p-3"
+        style={{ backgroundColor: power ? "green" : "red" }}
       >
-        <PowerSettingsNewIcon
-          style={{ fontSize: "80px", color: power ? "green" : "red" }}
-        />
-      </button>
+        <PowerSettingsNewIcon style={{ fontSize: "80px" }} />
+      </motion.button>
     </motion.div>
   );
 }
