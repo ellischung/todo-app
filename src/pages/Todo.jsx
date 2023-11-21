@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
+import { motion } from "framer-motion";
+import { fadeIn } from "../utils/utils";
 import { convertTime, levelToText } from "../utils/utils";
 import ProgressBar from "../components/ProgressBar";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -35,7 +37,10 @@ function Todo() {
   };
 
   return (
-    <div className="bg-card max-w-xl mx-auto rounded-3xl border p-4 my-8">
+    <motion.div
+      {...fadeIn}
+      className="bg-card max-w-xl mx-auto rounded-3xl border p-4 my-8"
+    >
       <div className="flex items-center relative">
         <button className="absolute left-0" onClick={() => navigate("/")}>
           <ArrowBackIosIcon />
@@ -87,10 +92,25 @@ function Todo() {
         </div>
       ))}
       <br />
-      <button onClick={() => navigate(`/edit/${todo.id}`)}>Edit Task</button>
-      <button onClick={() => removeTodo(todo)}>Delete Task</button>
-      <button onClick={repeatTask}>Repeat Tasks</button>
-    </div>
+      <button
+        className="bg-secondary text-black text-2xl mr-2 w-10 h-10 rounded-full"
+        onClick={() => navigate(`/edit/${todo.id}`)}
+      >
+        Edit Task
+      </button>
+      <button
+        className="bg-secondary text-black text-2xl mr-2 w-10 h-10 rounded-full"
+        onClick={() => removeTodo(todo)}
+      >
+        Delete Task
+      </button>
+      <button
+        className="bg-secondary text-black text-2xl mr-2 w-10 h-10 rounded-full"
+        onClick={repeatTask}
+      >
+        Repeat Tasks
+      </button>
+    </motion.div>
   );
 }
 
