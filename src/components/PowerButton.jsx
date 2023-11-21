@@ -1,7 +1,7 @@
 import React from "react";
 import { useTodo } from "../contexts/todoContext";
 import { motion } from "framer-motion";
-import variants from "../utils/animationVariants";
+import { variants } from "../utils/utils";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 function PowerButton() {

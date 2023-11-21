@@ -1,32 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
-import { convertTime } from "../utils/convertTime";
+import { convertTime, determineColor, levelToText } from "../utils/utils";
 import ProgressBar from "./ProgressBar";
 
 function Todo({ todo }) {
   const { completeTodo } = useTodo();
   const navigate = useNavigate();
-
-  let alertColor = "";
-  if (todo.isCompleted) {
-    alertColor = "green";
-  } else if (todo.date) {
-    const timeDiff = new Date(todo.date) - new Date().setHours(0, 0, 0, 0);
-    if (timeDiff < 0) {
-      alertColor = "red";
-    } else if (timeDiff < 3 * 24 * 60 * 60 * 1000) {
-      alertColor = "orange";
-    }
-  }
-
-  const levelToText = (value) => {
-    if (value <= 3) {
-      return "Low";
-    } else if (value <= 7) {
-      return "Medium";
-    }
-    return "High";
-  };
 
   const handleComplete = (e) => {
     e.stopPropagation();
@@ -40,18 +19,24 @@ function Todo({ todo }) {
 
   return (
     <div
-      className={`bg-card max-w-md mx-auto rounded-3xl border p-4 my-8 transition duration-500 ease-in-out hover:bg-hover cursor-pointer min-h-[300px]`}
+      className="bg-card max-w-md mx-auto rounded-3xl border p-4 my-8 transition duration-500 ease-in-out hover:bg-hover cursor-pointer min-h-[300px]"
       style={{
         textDecoration: todo.isCompleted ? "line-through" : "",
-        borderColor: alertColor,
+        borderColor: determineColor(todo.date),
       }}
       onClick={() => navigate(`/todo/${todo.id}`)}
     >
       <div>
-        <p className="text-3xl font-bold" style={{ color: alertColor }}>
+        <p
+          className="text-3xl font-bold"
+          style={{ color: determineColor(todo.date) }}
+        >
           {todo.name}
         </p>
-        <p className="text-secondary pt-4" style={{ color: alertColor }}>
+        <p
+          className="text-secondary pt-4"
+          style={{ color: determineColor(todo.date) }}
+        >
           &#128197; Due Date:{" "}
           {todo.date
             ? `${todo.date} ${convertTime(todo.time)}`

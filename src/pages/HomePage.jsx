@@ -6,7 +6,7 @@ import PowerButton from "../components/PowerButton";
 import { useTodo } from "../contexts/todoContext";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import variants from "../utils/animationVariants";
+import { variants } from "../utils/utils";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 const HomePage = () => {
@@ -14,7 +14,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="mb-10">
+    <div className="mb-8">
       <Search />
       <SortDropdown />
       <Filter />

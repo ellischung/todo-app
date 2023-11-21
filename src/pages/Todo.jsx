@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
-import { convertTime } from "../utils/convertTime";
+import { convertTime, determineColor, levelToText } from "../utils/utils";
 import ProgressBar from "../components/ProgressBar";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 function Todo() {
   const { id } = useParams();
@@ -12,16 +13,6 @@ function Todo() {
   const [subtasks, setSubtasks] = useState(todo.subtasks);
 
   if (!todo) return <div>No todo found</div>;
-
-  let alertColor = "";
-  if (todo.date) {
-    const timeDiff = new Date(todo.date) - new Date().setHours(0, 0, 0, 0);
-    if (timeDiff < 0) {
-      alertColor = "red";
-    } else if (timeDiff < 3 * 24 * 60 * 60 * 1000) {
-      alertColor = "orange";
-    }
-  }
 
   useEffect(() => {
     editTodo({ ...todo, subtasks: subtasks });
@@ -44,27 +35,33 @@ function Todo() {
   };
 
   return (
-    <div>
-      <button onClick={() => navigate("/")}>&larr;</button>
-      <h1 className="text-3xl font-bold">{todo.name}</h1>
-      <p>Priority Level: {todo.priority}</p>
-      <p>Complexity Level: {todo.complexity}</p>
-      <p style={{ color: alertColor }}>
-        {todo.date && `Due Date: ${todo.date} ${convertTime(todo.time)}`}
+    <div className="bg-card max-w-xl mx-auto rounded-3xl border p-4 my-8">
+      <div className="flex items-center relative">
+        <button className="absolute left-0" onClick={() => navigate("/")}>
+          <ArrowBackIosIcon />
+        </button>
+        <h1 className="text-3xl font-bold w-full text-center">{todo.name}</h1>
+      </div>
+      <p
+        className="text-secondary pt-4"
+        style={{ color: determineColor(todo.date) }}
+      >
+        &#128197; Due Date:{" "}
+        {todo.date ? `${todo.date} ${convertTime(todo.time)}` : "Not specified"}
       </p>
-      <p>
-        {todo.tags
-          .split(",")
-          .map(
-            (tag) =>
-              tag && (
-                <span style={{ margin: "5px", border: "1px solid" }}>
-                  {tag.trim()}
-                </span>
-              )
-          )}
+      <p className="text-secondary pt-1">
+        <span className="text-black text-xl">&uarr; </span> Priority Level:{" "}
+        {todo.priority
+          ? `${levelToText(todo.priority)} (${todo.priority}/10)`
+          : "Not specified"}
       </p>
-      <p>Task Progress:</p>
+      <p className="text-secondary pt-1">
+        <span className="text-black text-xl">&oplus; </span>Complexity Level:{" "}
+        {todo.complexity
+          ? `${levelToText(todo.complexity)} (${todo.complexity}/10)`
+          : "Not specified"}
+      </p>
+      <p className="pt-2">Task Progress:</p>
       <ProgressBar
         progress={
           Math.floor(
@@ -74,7 +71,7 @@ function Todo() {
           ) || 0
         }
       />
-      <p>Checklist for subtasks:</p>
+      <p className="pt-2">Checklist for subtasks:</p>
       {subtasks.map((subtask) => (
         <div
           key={subtask.id}
