@@ -22,20 +22,20 @@ function Todo({ todo }) {
       className="bg-card max-w-md mx-auto rounded-3xl border p-4 my-8 transition duration-500 ease-in-out hover:bg-hover cursor-pointer min-h-[300px]"
       style={{
         textDecoration: todo.isCompleted ? "line-through" : "",
-        borderColor: determineColor(todo.date),
+        borderColor: determineColor(todo),
       }}
       onClick={() => navigate(`/todo/${todo.id}`)}
     >
       <div>
         <p
           className="text-3xl font-bold"
-          style={{ color: determineColor(todo.date) }}
+          style={{ color: determineColor(todo) }}
         >
           {todo.name}
         </p>
         <p
           className="text-secondary pt-4"
-          style={{ color: determineColor(todo.date) }}
+          style={{ color: determineColor(todo) }}
         >
           &#128197; Due Date:{" "}
           {todo.date
@@ -84,9 +84,7 @@ function Todo({ todo }) {
       <p className="pt-3">Task Completed: </p>
       <ProgressBar
         progress={
-          todo.isCompleted
-            ? 100
-            : todo.subtasks
+          todo.subtasks
             ? Math.floor(
                 (todo.subtasks.filter((subtask) => subtask.isChecked).length /
                   todo.subtasks.length) *

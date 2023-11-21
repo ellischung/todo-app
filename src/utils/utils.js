@@ -9,10 +9,12 @@ export function convertTime(time) {
   return "";
 }
 
-export function determineColor(date) {
+export function determineColor(todo) {
   let color = "";
-  if (date) {
-    const timeDiff = new Date(date) - new Date().setHours(0, 0, 0, 0);
+  if (todo.isCompleted) {
+    color = "green";
+  } else if (todo.date) {
+    const timeDiff = new Date(todo.date) - new Date().setHours(0, 0, 0, 0);
     if (timeDiff < 0) {
       color = "red";
     } else if (timeDiff < 3 * 24 * 60 * 60 * 1000) {

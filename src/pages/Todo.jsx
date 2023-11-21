@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
-import { convertTime, determineColor, levelToText } from "../utils/utils";
+import { convertTime, levelToText } from "../utils/utils";
 import ProgressBar from "../components/ProgressBar";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
@@ -42,10 +42,7 @@ function Todo() {
         </button>
         <h1 className="text-3xl font-bold w-full text-center">{todo.name}</h1>
       </div>
-      <p
-        className="text-secondary pt-4"
-        style={{ color: determineColor(todo.date) }}
-      >
+      <p className="text-secondary pt-4">
         &#128197; Due Date:{" "}
         {todo.date ? `${todo.date} ${convertTime(todo.time)}` : "Not specified"}
       </p>
@@ -92,7 +89,7 @@ function Todo() {
       <br />
       <button onClick={() => navigate(`/edit/${todo.id}`)}>Edit Task</button>
       <button onClick={() => removeTodo(todo)}>Delete Task</button>
-      <button onClick={repeatTask}>Repeat Task</button>
+      <button onClick={repeatTask}>Repeat Tasks</button>
     </div>
   );
 }
