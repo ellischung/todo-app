@@ -6,6 +6,11 @@ import { fadeIn } from "../utils/utils";
 import { convertTime, levelToText } from "../utils/utils";
 import ProgressBar from "../components/ProgressBar";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import RepeatIcon from "@mui/icons-material/Repeat";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
 function Todo() {
   const { id } = useParams();
@@ -41,11 +46,17 @@ function Todo() {
       {...fadeIn}
       className="bg-card max-w-xl mx-auto rounded-3xl border p-4 my-8"
     >
-      <div className="flex items-center relative">
-        <button className="absolute left-0" onClick={() => navigate("/")}>
+      <div className="flex items-center justify-between">
+        <button className="w-10 h-10" onClick={() => navigate("/")}>
           <ArrowBackIosIcon />
         </button>
-        <h1 className="text-3xl font-bold w-full text-center">{todo.name}</h1>
+        <h1 className="text-3xl font-bold">{todo.name}</h1>
+        <button
+          className="bg-secondary text-black w-10 h-10 rounded-full flex items-center justify-center"
+          onClick={() => navigate(`/edit/${todo.id}`)}
+        >
+          <EditIcon />
+        </button>
       </div>
       <p className="text-secondary pt-4">
         &#128197; Due Date:{" "}
@@ -63,7 +74,7 @@ function Todo() {
           ? `${levelToText(todo.complexity)} (${todo.complexity}/10)`
           : "Not specified"}
       </p>
-      <p className="pt-2">Task Progress:</p>
+      <p className="pt-8">Task Progress:</p>
       <ProgressBar
         progress={
           Math.floor(
@@ -77,39 +88,43 @@ function Todo() {
       {subtasks.map((subtask) => (
         <div
           key={subtask.id}
+          className="flex items-center mx-auto my-2 p-1 border rounded-lg w-2/3 transition duration-500 ease-in-out"
           style={{
             textDecoration: subtask.isChecked ? "line-through" : "",
+            backgroundColor: subtask.isChecked ? "green" : "",
           }}
         >
-          {subtask.name}
+          <div className="flex-grow">{subtask.name}</div>
           <button
+            className="flex items-center justify-center"
             onClick={() => {
               handleSubtask(subtask.id);
             }}
           >
-            &#10003;
+            {subtask.isChecked ? (
+              <CheckBoxIcon />
+            ) : (
+              <CheckBoxOutlineBlankIcon />
+            )}
           </button>
         </div>
       ))}
-      <br />
-      <button
-        className="bg-secondary text-black text-2xl mr-2 w-10 h-10 rounded-full"
-        onClick={() => navigate(`/edit/${todo.id}`)}
-      >
-        Edit Task
-      </button>
-      <button
-        className="bg-secondary text-black text-2xl mr-2 w-10 h-10 rounded-full"
-        onClick={() => removeTodo(todo)}
-      >
-        Delete Task
-      </button>
-      <button
-        className="bg-secondary text-black text-2xl mr-2 w-10 h-10 rounded-full"
-        onClick={repeatTask}
-      >
-        Repeat Tasks
-      </button>
+      <div className="flex justify-center pt-8">
+        <button
+          className="bg-red-500 mr-2 p-2 rounded-md flex items-center justify-center"
+          onClick={() => removeTodo(todo)}
+        >
+          <DeleteIcon />
+          Delete Task
+        </button>
+        <button
+          className="bg-blue-500 ml-2 p-2 rounded-md flex items-center justify-center"
+          onClick={repeatTask}
+        >
+          <RepeatIcon />
+          Repeat Tasks
+        </button>
+      </div>
     </motion.div>
   );
 }
