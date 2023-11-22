@@ -2,16 +2,8 @@ import React, { useState } from "react";
 import { useTodo } from "../contexts/todoContext";
 
 function Filter() {
-  const { todos, filter, setFilter } = useTodo();
+  const { filter, setFilter, tags } = useTodo();
   const [isOpen, setIsOpen] = useState(false);
-  const tags = new Set();
-
-  todos.forEach((todo) => {
-    todo.tags &&
-      todo.tags.split(",").forEach((tag) => {
-        tags.add(tag.trim());
-      });
-  });
 
   const handleChange = (value) => {
     setFilter(value);

@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
 import { convertTime, determineColor, levelToText } from "../utils/utils";
 import ProgressBar from "./ProgressBar";
+import EditIcon from "@mui/icons-material/Edit";
+import CheckIcon from "@mui/icons-material/Check";
 
 function Todo({ todo }) {
   const { completeTodo } = useTodo();
@@ -70,15 +72,15 @@ function Todo({ todo }) {
       <div className="flex justify-center pt-3">
         <button
           onClick={handleEdit}
-          className="bg-secondary text-black text-2xl mr-2 w-10 h-10 rounded-full flex items-center justify-center"
+          className="bg-secondary text-black mr-2 w-10 h-10 rounded-full flex items-center justify-center"
         >
-          &#9998;
+          <EditIcon />
         </button>
         <button
           onClick={handleComplete}
-          className="bg-secondary text-black text-2xl ml-2 w-10 h-10 rounded-full flex items-center justify-center"
+          className="bg-secondary text-black ml-2 w-10 h-10 rounded-full flex items-center justify-center"
         >
-          &#10003;
+          <CheckIcon />
         </button>
       </div>
       <p className="pt-3">Task Completed: </p>
