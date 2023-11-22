@@ -16,8 +16,10 @@ const HomePage = () => {
   return (
     <div className="mb-8">
       <Search />
-      <SortDropdown />
-      <Filter />
+      <div className="flex justify-center pb-3">
+        <SortDropdown />
+        <Filter />
+      </div>
       <div className="flex justify-center pt-6 pb-2 space-x-6">
         <PowerButton />
         <button onClick={() => navigate("/add")}>

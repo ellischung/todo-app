@@ -1,50 +1,30 @@
-import React, { useState } from "react";
 import { useTodo } from "../contexts/todoContext";
 
 function SortDropdown() {
-  const { sortBy, setSortBy } = useTodo();
-  const [isOpen, setIsOpen] = useState(false);
+  const { setSortBy } = useTodo();
 
-  const options = [
-    { label: "Default", value: "default" },
-    { label: "Ascending Priority", value: "+priority" },
-    { label: "Descending Priority", value: "-priority" },
-    { label: "Ascending Complexity", value: "+complexity" },
-    { label: "Descending Complexity", value: "-complexity" },
-    { label: "Ascending Date", value: "+date" },
-    { label: "Descending Date", value: "-date" },
-  ];
-
-  const handleChange = (value) => {
-    setSortBy(value);
-    setIsOpen(false);
+  const handleChange = (e) => {
+    setSortBy(e.target.value);
   };
 
   return (
-    <div className="relative inline-block text-black pb-3 w-[40%] sm:w-[20%]">
-      <div
-        className="bg-secondary font-bold rounded-full border p-2 cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
+    <div className="text-black w-[40%] sm:w-[20%]">
+      <select
+        className="bg-secondary font-bold rounded-full border p-2 cursor-pointer w-full"
+        onChange={handleChange}
+        defaultValue=""
       >
-        Sort
-      </div>
-      {isOpen && (
-        <div className="bg-secondary absolute border mt-1 rounded w-full text-left z-50">
-          {options.map((option) => (
-            <div key={option.value} className="p-2">
-              <label className="flex items-center space-x-2">
-                <input
-                  type="radio"
-                  value={option.value}
-                  checked={sortBy === option.value}
-                  onChange={() => handleChange(option.value)}
-                />
-                <span>{option.label}</span>
-              </label>
-            </div>
-          ))}
-        </div>
-      )}
+        <option value="" disabled hidden>
+          Sort
+        </option>
+        <option value="">Default</option>
+        <option value="+priority">Ascending Priority</option>
+        <option value="-priority">Descending Priority</option>
+        <option value="+complexity">Ascending Complexity</option>
+        <option value="-complexity">Descending Complexity</option>
+        <option value="+date">Ascending Date</option>
+        <option value="-date">Descending Date</option>
+      </select>
     </div>
   );
 }

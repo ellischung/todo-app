@@ -1,50 +1,29 @@
-import React, { useState } from "react";
 import { useTodo } from "../contexts/todoContext";
 
 function Filter() {
-  const { filter, setFilter, tags } = useTodo();
-  const [isOpen, setIsOpen] = useState(false);
+  const { setFilter, tags } = useTodo();
 
-  const handleChange = (value) => {
-    setFilter(value);
-    setIsOpen(false);
+  const handleChange = (e) => {
+    setFilter(e.target.value);
   };
 
   return (
-    <div className="relative inline-block text-black w-[40%] sm:w-[20%]">
-      <div
-        className="bg-secondary font-bold rounded-full border p-2 cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
+    <div className="text-black w-[40%] sm:w-[20%]">
+      <select
+        className="bg-secondary font-bold rounded-full border p-2 cursor-pointer w-full"
+        onChange={handleChange}
+        defaultValue=""
       >
-        Filter
-      </div>
-      {isOpen && (
-        <div className="bg-secondary absolute border mt-1 rounded w-full text-left z-50">
-          <div className="p-2">
-            <label className="flex items-center space-x-2">
-              <input
-                type="radio"
-                checked={filter === ""}
-                onChange={() => handleChange("")}
-              />
-              <span>None</span>
-            </label>
-          </div>
-          {[...tags].map((tag) => (
-            <div key={tag} className="p-2">
-              <label className="flex items-center space-x-2">
-                <input
-                  type="radio"
-                  value={tag}
-                  checked={filter === tag}
-                  onChange={() => handleChange(tag)}
-                />
-                <span>{tag}</span>
-              </label>
-            </div>
-          ))}
-        </div>
-      )}
+        <option value="" disabled hidden>
+          Filter
+        </option>
+        <option value="">None</option>
+        {[...tags].map((tag, index) => (
+          <option key={index} value={tag}>
+            {tag}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
