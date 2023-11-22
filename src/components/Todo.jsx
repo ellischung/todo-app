@@ -31,19 +31,19 @@ function Todo({ todo }) {
         <p className={`text-3xl font-bold ${determineColor(todo)}`}>
           {todo.name}
         </p>
-        <p className={`text-secondary pt-4 ${determineColor(todo)}`}>
+        <p className={`pt-4 ${determineColor(todo)}`}>
           &#128197; Due Date:{" "}
           {todo.date
             ? `${todo.date} ${convertTime(todo.time)}`
             : "Not specified"}
         </p>
-        <p className="text-secondary pt-1">
+        <p className="pt-1">
           <span className="text-black text-xl">&uarr; </span> Priority Level:{" "}
           {todo.priority
             ? `${levelToText(todo.priority)} (${todo.priority}/10)`
             : "Not specified"}
         </p>
-        <p className="text-secondary pt-1">
+        <p className="pt-1">
           <span className="text-black text-xl">&oplus; </span>Complexity Level:{" "}
           {todo.complexity
             ? `${levelToText(todo.complexity)} (${todo.complexity}/10)`
