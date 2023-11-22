@@ -104,7 +104,7 @@ function TodoForm() {
       <form className="flex flex-col text-left pt-8" onSubmit={handleSubmit}>
         <label>Task Name:</label>
         <input
-          className="rounded-2xl p-1 w-3/4"
+          className="rounded-2xl p-1"
           type="text"
           name="name"
           placeholder="Enter a task name..."
@@ -118,7 +118,7 @@ function TodoForm() {
               initial={variants.initial}
               animate={variants.animate}
               transition={{ delay: index * 0.08 }}
-              className={`m-1 p-2 rounded-full w-10 h-10 flex items-center justify-center cursor-pointer ${
+              className={`rounded-full mx-auto w-10 h-10 flex items-center justify-center cursor-pointer ${
                 todo.priority == value
                   ? "bg-blue-500 text-white"
                   : "bg-white text-black"
@@ -144,7 +144,7 @@ function TodoForm() {
               initial={variants.initial}
               animate={variants.animate}
               transition={{ delay: index * 0.08 }}
-              className={`m-1 p-2 rounded-full w-10 h-10 flex items-center justify-center cursor-pointer ${
+              className={`rounded-full mx-auto w-10 h-10 flex items-center justify-center cursor-pointer ${
                 todo.complexity == value
                   ? "bg-blue-500 text-white"
                   : "bg-white text-black"
@@ -163,11 +163,11 @@ function TodoForm() {
             </motion.label>
           ))}
         </div>
-        <div className="pt-4">
+        <div className="flex flex-col sm:flex-row pt-4">
           <label>Set Due Date:</label>
           <input
             type="date"
-            className="rounded-full p-2 mx-2"
+            className="rounded-full p-2 sm:mx-2"
             name="date"
             value={todo.date}
             onChange={handleChange}
@@ -175,7 +175,7 @@ function TodoForm() {
           <label>Set Time:</label>
           <input
             type="time"
-            className="rounded-full p-2 mx-2"
+            className="rounded-full p-2 sm:mx-2"
             name="time"
             value={todo.time}
             onChange={handleChange}
@@ -186,7 +186,7 @@ function TodoForm() {
           <div className="flex items-center">
             <input
               type="text"
-              className="rounded-full p-2 mr-2 mb-2 w-3/4"
+              className="rounded-full p-2 mr-2 mb-2 w-[95%]"
               name="subtask"
               placeholder="Add a subtask..."
               value={subtask.name}
@@ -203,7 +203,7 @@ function TodoForm() {
         {subtasks.map((subtask) => (
           <div className="flex items-center" key={subtask.id}>
             <input
-              className="rounded-full p-2 mr-2 mb-2 w-3/4"
+              className="rounded-full p-2 mr-2 mb-2 w-[95%]"
               value={subtask.name}
               onChange={(e) => handleEditSubtask(e, subtask.id)}
             />
@@ -219,7 +219,7 @@ function TodoForm() {
         <label className="pt-2">Add Tags:</label>
         <input
           type="text"
-          className="rounded-full p-2 w-3/4"
+          className="rounded-full p-2"
           name="tags"
           placeholder="Tag1, Tag2, Tag3, ..."
           value={todo.tags}
