@@ -2,6 +2,12 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTodo } from "../contexts/todoContext";
 import { uid } from "uid";
+import { motion } from "framer-motion";
+import { fadeIn } from "../utils/utils";
+import { variants } from "../utils/utils";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import AddIcon from "@mui/icons-material/Add";
+import ClearIcon from "@mui/icons-material/Clear";
 
 function TodoForm() {
   const { id } = useParams();
@@ -35,13 +41,6 @@ function TodoForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setTodo((prevTodo) => ({
-      ...prevTodo,
-      [name]: value,
-    }));
-  };
-
-  const handleLevelChange = (name, value) => {
     setTodo((prevTodo) => ({
       ...prevTodo,
       [name]: value,
@@ -83,98 +82,152 @@ function TodoForm() {
   };
 
   return (
-    <div>
-      <button onClick={() => navigate("/")}>&larr;</button>
-      <h1>{todoExists ? "Edit Task" : "Add New Task"}</h1>
-      <form onSubmit={handleSubmit}>
+    <motion.div
+      {...fadeIn}
+      className="bg-card max-w-xl mx-auto rounded-3xl border p-4 my-8"
+    >
+      <div className="flex items-center justify-center relative">
+        <button className="absolute left-0" onClick={() => navigate("/")}>
+          <ArrowBackIosIcon />
+        </button>
+        <h1 className="text-3xl font-bold">
+          {todoExists ? "Edit Task" : "Add New Task"}
+        </h1>
+      </div>
+      <form className="flex flex-col text-left pt-8" onSubmit={handleSubmit}>
         <label>Task Name:</label>
         <input
+          className="rounded-2xl p-1 w-3/4"
           type="text"
-          className="input"
           name="name"
+          placeholder="Enter a task name..."
           value={todo.name}
           onChange={handleChange}
         />
-        <label>Set Priority Level:</label>
-        {levels.map((value) => (
-          <button
-            className="text-black"
-            type="button"
-            key={value}
-            onClick={() => handleLevelChange("priority", value)}
-            style={{
-              backgroundColor: todo.priority === value ? "blue" : "white",
-            }}
-          >
-            {value}
-          </button>
-        ))}
-        <label>Set Complexity Level:</label>
-        {levels.map((value) => (
-          <button
-            className="text-black"
-            type="button"
-            key={value}
-            onClick={() => handleLevelChange("complexity", value)}
-            style={{
-              backgroundColor: todo.complexity === value ? "blue" : "white",
-            }}
-          >
-            {value}
-          </button>
-        ))}
-        <label>Set Due Date:</label>
-        <input
-          type="date"
-          className="input"
-          name="date"
-          value={todo.date}
-          onChange={handleChange}
-        />
-        <label>Set Time:</label>
-        <input
-          type="time"
-          className="input"
-          name="time"
-          value={todo.time}
-          onChange={handleChange}
-        />
-        <form onSubmit={addSubtask}>
-          <label>Add Subtask:</label>
+        <label className="pt-4">Set Priority Level:</label>
+        <div className="flex">
+          {levels.map((value, index) => (
+            <motion.label
+              initial={variants.initial}
+              animate={variants.animate}
+              transition={{ delay: index * 0.08 }}
+              className={`m-1 p-2 rounded-full w-10 h-10 flex items-center justify-center cursor-pointer ${
+                todo.priority == value
+                  ? "bg-blue-500 text-white"
+                  : "bg-white text-black"
+              }`}
+              key={index}
+            >
+              <input
+                type="radio"
+                name="priority"
+                className="hidden"
+                value={value}
+                checked={todo.priority == value ? true : false}
+                onChange={handleChange}
+              />
+              {value}
+            </motion.label>
+          ))}
+        </div>
+        <label className="pt-4">Set Complexity Level:</label>
+        <div className="flex">
+          {levels.map((value, index) => (
+            <motion.label
+              initial={variants.initial}
+              animate={variants.animate}
+              transition={{ delay: index * 0.08 }}
+              className={`m-1 p-2 rounded-full w-10 h-10 flex items-center justify-center cursor-pointer ${
+                todo.complexity == value
+                  ? "bg-blue-500 text-white"
+                  : "bg-white text-black"
+              }`}
+              key={index}
+            >
+              <input
+                type="radio"
+                name="complexity"
+                className="hidden"
+                value={value}
+                checked={todo.complexity == value ? true : false}
+                onChange={handleChange}
+              />
+              {value}
+            </motion.label>
+          ))}
+        </div>
+        <div className="pt-4">
+          <label>Set Due Date:</label>
           <input
-            type="text"
-            className="input"
-            name="subtask"
-            placeholder="Add a subtask.."
-            value={subtask.name}
-            onChange={(e) => setSubtask({ ...subtask, name: e.target.value })}
+            type="date"
+            className="rounded-full p-2 mx-2"
+            name="date"
+            value={todo.date}
+            onChange={handleChange}
           />
-          <button onClick={addSubtask}>+</button>
+          <label>Set Time:</label>
+          <input
+            type="time"
+            className="rounded-full p-2 mx-2"
+            name="time"
+            value={todo.time}
+            onChange={handleChange}
+          />
+        </div>
+        <form className="flex flex-col text-left pt-4" onSubmit={addSubtask}>
+          <label>Add Subtask:</label>
+          <div className="flex items-center">
+            <input
+              type="text"
+              className="rounded-full p-2 mr-2 mb-2 w-3/4"
+              name="subtask"
+              placeholder="Add a subtask..."
+              value={subtask.name}
+              onChange={(e) => setSubtask({ ...subtask, name: e.target.value })}
+            />
+            <button
+              className="flex items-center justify-center"
+              onClick={addSubtask}
+            >
+              <AddIcon />
+            </button>
+          </div>
         </form>
         {subtasks.map((subtask) => (
-          <div key={subtask.id}>
+          <div className="flex items-center" key={subtask.id}>
             <input
+              className="rounded-full p-2 mr-2 mb-2 w-3/4"
               value={subtask.name}
               onChange={(e) => editSubtask(e, subtask.id)}
             />
-            <button type="button" onClick={() => removeSubtask(subtask)}>
-              x
+            <button
+              className="flex items-center justify-center"
+              type="button"
+              onClick={() => removeSubtask(subtask)}
+            >
+              <ClearIcon />
             </button>
           </div>
         ))}
-        <label>Add Tags:</label>
+        <label className="pt-2">Add Tags:</label>
         <input
           type="text"
-          className="input"
+          className="rounded-full p-2 w-3/4"
           name="tags"
+          placeholder="Tag1, Tag2, Tag3, ..."
           value={todo.tags}
           onChange={handleChange}
         />
-        <button type="submit">
-          {todoExists ? "Update Task" : "Save Task"}
-        </button>
+        <div className="flex justify-center pt-8">
+          <button
+            className="bg-blue-500 ml-2 p-2 rounded-md flex items-center justify-center"
+            type="submit"
+          >
+            {todoExists ? "Update Task" : "Save Task"}
+          </button>
+        </div>
       </form>
-    </div>
+    </motion.div>
   );
 }
 
