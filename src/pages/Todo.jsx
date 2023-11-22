@@ -44,7 +44,7 @@ function Todo() {
   return (
     <motion.div
       {...fadeIn}
-      className="bg-card max-w-xl mx-auto rounded-3xl border p-4 my-8"
+      className="bg-card mx-auto rounded-3xl border p-4 my-8 w-[80%] sm:w-[40%]"
     >
       <div className="flex items-center justify-between">
         <button className="w-10 h-10" onClick={() => navigate("/")}>

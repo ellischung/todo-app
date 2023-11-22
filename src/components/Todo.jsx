@@ -21,7 +21,7 @@ function Todo({ todo }) {
 
   return (
     <div
-      className={`bg-card max-w-md mx-auto rounded-3xl border p-4 my-8 transition duration-500 ease-in-out hover:bg-hover cursor-pointer min-h-[300px] ${
+      className={`bg-card mx-auto rounded-3xl border p-4 my-8 transition duration-500 ease-in-out hover:bg-hover cursor-pointer w-[80%] sm:w-[40%] min-h-[300px] ${
         todo.isCompleted ? "line-through" : ""
       }`}
       style={{ backgroundColor: todo.isCompleted ? "green" : "" }}
