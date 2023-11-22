@@ -60,31 +60,35 @@ function Todo() {
       </div>
       <p className="text-secondary pt-4">
         &#128197; Due Date:{" "}
-        {todo.date ? `${todo.date} ${convertTime(todo.time)}` : "Not specified"}
+        {todo.date ? `${todo.date} ${convertTime(todo.time)}` : "No Set Date"}
       </p>
       <p className="text-secondary pt-1">
         <span className="text-black text-xl">&uarr; </span> Priority Level:{" "}
         {todo.priority
           ? `${levelToText(todo.priority)} (${todo.priority}/10)`
-          : "Not specified"}
+          : `${levelToText(0)} (0/10)`}
       </p>
       <p className="text-secondary pt-1">
         <span className="text-black text-xl">&oplus; </span>Complexity Level:{" "}
         {todo.complexity
           ? `${levelToText(todo.complexity)} (${todo.complexity}/10)`
-          : "Not specified"}
+          : `${levelToText(0)} (0/10)`}
       </p>
-      <p className="pt-8">Task Progress:</p>
-      <ProgressBar
-        progress={
-          Math.floor(
-            (subtasks.filter((subtask) => subtask.isChecked).length /
-              subtasks.length) *
-              100
-          ) || 0
-        }
-      />
-      <p className="pt-2">Checklist for subtasks:</p>
+      {subtasks.length != 0 && (
+        <div className="pt-8">
+          <p>Task Progress:</p>
+          <ProgressBar
+            progress={
+              Math.floor(
+                (subtasks.filter((subtask) => subtask.isChecked).length /
+                  subtasks.length) *
+                  100
+              ) || 0
+            }
+          />
+          <p className="pt-2">Checklist for subtasks:</p>
+        </div>
+      )}
       {subtasks.map((subtask) => (
         <div
           key={subtask.id}

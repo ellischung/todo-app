@@ -21,7 +21,7 @@ function Todo({ todo }) {
 
   return (
     <div
-      className={`bg-card mx-auto rounded-3xl border p-4 my-8 transition duration-500 ease-in-out hover:bg-hover cursor-pointer w-[80%] sm:w-[40%] min-h-[300px] ${
+      className={`bg-card mx-auto rounded-3xl border p-4 my-8 transition duration-500 ease-in-out hover:bg-hover cursor-pointer w-[80%] sm:w-[40%] ${
         todo.isCompleted ? "line-through" : ""
       }`}
       style={{ backgroundColor: todo.isCompleted ? "green" : "" }}
@@ -33,21 +33,19 @@ function Todo({ todo }) {
         </p>
         <p className={`pt-4 ${determineColor(todo)}`}>
           &#128197; Due Date:{" "}
-          {todo.date
-            ? `${todo.date} ${convertTime(todo.time)}`
-            : "Not specified"}
+          {todo.date ? `${todo.date} ${convertTime(todo.time)}` : "No Set Date"}
         </p>
         <p className="pt-1">
           <span className="text-black text-xl">&uarr; </span> Priority Level:{" "}
           {todo.priority
             ? `${levelToText(todo.priority)} (${todo.priority}/10)`
-            : "Not specified"}
+            : `${levelToText(0)} (0/10)`}
         </p>
         <p className="pt-1">
           <span className="text-black text-xl">&oplus; </span>Complexity Level:{" "}
           {todo.complexity
             ? `${levelToText(todo.complexity)} (${todo.complexity}/10)`
-            : "Not specified"}
+            : `${levelToText(0)} (0/10)`}
         </p>
         <p className="pt-2">
           {todo.tags &&
@@ -76,18 +74,20 @@ function Todo({ todo }) {
           <CheckIcon />
         </button>
       </div>
-      <p className="pt-3">Task Completed: </p>
-      <ProgressBar
-        progress={
-          todo.subtasks
-            ? Math.floor(
+      {todo.subtasks.length != 0 && (
+        <div className="pt-3">
+          <p>Task Completed: </p>
+          <ProgressBar
+            progress={
+              Math.floor(
                 (todo.subtasks.filter((subtask) => subtask.isChecked).length /
                   todo.subtasks.length) *
                   100
               ) || 0
-            : 0
-        }
-      />
+            }
+          />
+        </div>
+      )}
     </div>
   );
 }
