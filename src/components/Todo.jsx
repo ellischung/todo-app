@@ -21,24 +21,17 @@ function Todo({ todo }) {
 
   return (
     <div
-      className="bg-card max-w-md mx-auto rounded-3xl border p-4 my-8 transition duration-500 ease-in-out hover:bg-hover cursor-pointer min-h-[300px]"
-      style={{
-        textDecoration: todo.isCompleted ? "line-through" : "",
-        borderColor: determineColor(todo),
-      }}
+      className={`bg-card max-w-md mx-auto rounded-3xl border p-4 my-8 transition duration-500 ease-in-out hover:bg-hover cursor-pointer min-h-[300px] ${
+        todo.isCompleted ? "line-through" : ""
+      }`}
+      style={{ backgroundColor: todo.isCompleted ? "green" : "" }}
       onClick={() => navigate(`/todo/${todo.id}`)}
     >
       <div>
-        <p
-          className="text-3xl font-bold"
-          style={{ color: determineColor(todo) }}
-        >
+        <p className={`text-3xl font-bold ${determineColor(todo)}`}>
           {todo.name}
         </p>
-        <p
-          className="text-secondary pt-4"
-          style={{ color: determineColor(todo) }}
-        >
+        <p className={`text-secondary pt-4 ${determineColor(todo)}`}>
           &#128197; Due Date:{" "}
           {todo.date
             ? `${todo.date} ${convertTime(todo.time)}`

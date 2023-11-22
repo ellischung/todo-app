@@ -12,13 +12,13 @@ export function convertTime(time) {
 export function determineColor(todo) {
   let color = "";
   if (todo.isCompleted) {
-    color = "green";
+    color = "text-green-500";
   } else if (todo.date) {
     const timeDiff = new Date(todo.date) - new Date().setHours(0, 0, 0, 0);
     if (timeDiff < 0) {
-      color = "red";
+      color = "text-red-500";
     } else if (timeDiff < 3 * 24 * 60 * 60 * 1000) {
-      color = "orange";
+      color = "text-orange-500";
     }
   }
   return color;

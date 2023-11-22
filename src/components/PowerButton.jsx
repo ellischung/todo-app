@@ -22,8 +22,9 @@ function PowerButton() {
       <motion.button
         whileTap={{ scale: 0.9 }}
         onClick={handleClick}
-        className="font-bold border-4 rounded-full p-3"
-        style={{ backgroundColor: power ? "green" : "red" }}
+        className={`font-bold border-4 rounded-full p-3 ${
+          power ? "bg-green-500" : "bg-red-500"
+        }`}
       >
         <PowerSettingsNewIcon style={{ fontSize: "80px" }} />
       </motion.button>
