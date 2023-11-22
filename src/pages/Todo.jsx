@@ -88,11 +88,9 @@ function Todo() {
       {subtasks.map((subtask) => (
         <div
           key={subtask.id}
-          className="flex items-center mx-auto my-2 p-1 border rounded-lg w-2/3 transition duration-500 ease-in-out"
-          style={{
-            textDecoration: subtask.isChecked ? "line-through" : "",
-            backgroundColor: subtask.isChecked ? "green" : "",
-          }}
+          className={`flex items-center mx-auto my-2 p-1 border rounded-lg w-2/3 transition duration-500 ease-in-out ${
+            subtask.isChecked ? "line-through bg-green-500" : ""
+          }`}
         >
           <div className="flex-grow">{subtask.name}</div>
           <button

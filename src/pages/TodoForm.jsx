@@ -60,6 +60,23 @@ function TodoForm() {
     navigate("/");
   };
 
+  const handleSubtask = (e) => {
+    setSubtask((prevSubtask) => ({
+      ...prevSubtask,
+      name: e.target.value,
+    }));
+  };
+
+  const handleEditSubtask = (e, id) => {
+    setSubtasks(
+      subtasks.map((prevSubtask) =>
+        prevSubtask.id === id
+          ? { ...prevSubtask, name: e.target.value }
+          : prevSubtask
+      )
+    );
+  };
+
   const addSubtask = (e) => {
     e.preventDefault();
     if (!subtask.name) return;
@@ -69,16 +86,6 @@ function TodoForm() {
 
   const removeSubtask = (taskToRemove) => {
     setSubtasks(subtasks.filter((task) => task !== taskToRemove));
-  };
-
-  const editSubtask = (e, id) => {
-    setSubtasks(
-      subtasks.map((prevSubtask) =>
-        prevSubtask.id === id
-          ? { ...prevSubtask, name: e.target.value }
-          : prevSubtask
-      )
-    );
   };
 
   return (
@@ -183,7 +190,7 @@ function TodoForm() {
               name="subtask"
               placeholder="Add a subtask..."
               value={subtask.name}
-              onChange={(e) => setSubtask({ ...subtask, name: e.target.value })}
+              onChange={handleSubtask}
             />
             <button
               className="flex items-center justify-center"
@@ -198,7 +205,7 @@ function TodoForm() {
             <input
               className="rounded-full p-2 mr-2 mb-2 w-3/4"
               value={subtask.name}
-              onChange={(e) => editSubtask(e, subtask.id)}
+              onChange={(e) => handleEditSubtask(e, subtask.id)}
             />
             <button
               className="flex items-center justify-center"

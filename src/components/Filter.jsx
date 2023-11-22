@@ -20,14 +20,12 @@ function Filter() {
       </div>
       {isOpen && (
         <div className="bg-secondary absolute border mt-1 rounded w-full text-left">
-          <div key="" className="p-2">
+          <div className="p-2">
             <label className="flex items-center space-x-2">
               <input
                 type="radio"
-                value=""
                 checked={filter === ""}
                 onChange={() => handleChange("")}
-                className="form-radio"
               />
               <span>None</span>
             </label>
