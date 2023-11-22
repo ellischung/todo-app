@@ -11,7 +11,7 @@ function Filter() {
   };
 
   return (
-    <div className="relative inline-block text-black w-full sm:w-[20%]">
+    <div className="relative inline-block text-black w-[40%] sm:w-[12%]">
       <div
         className="bg-secondary font-bold rounded-full border p-2 cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
