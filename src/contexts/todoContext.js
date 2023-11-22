@@ -68,15 +68,20 @@ export const TodoProvider = ({ children }) => {
   };
 
   const addTodo = (todo) => {
-    const newTodos = [...todos, { ...todo, id: uid() }];
-    setTodos(newTodos);
+    setTodos([{ ...todo, id: uid() }, ...todos]);
   };
 
   const completeTodo = (todo) => {
     setTodos((todos) =>
-      todos.map((t) =>
-        t.id === todo.id ? { ...t, isCompleted: !t.isCompleted } : t
-      )
+      todos
+        .map((t) =>
+          t.id === todo.id ? { ...t, isCompleted: !t.isCompleted } : t
+        )
+        .sort((a, b) => {
+          if (a.isCompleted && !b.isCompleted) return 1;
+          if (!a.isCompleted && b.isCompleted) return -1;
+          return 0;
+        })
     );
   };
 

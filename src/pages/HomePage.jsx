@@ -18,6 +18,12 @@ const HomePage = () => {
       <Search />
       <SortDropdown />
       <Filter />
+      <div className="flex justify-center pt-6 pb-2 space-x-6">
+        <PowerButton />
+        <button onClick={() => navigate("/add")}>
+          <AddCircleIcon style={{ fontSize: "100px" }} />
+        </button>
+      </div>
       {!power
         ? selectedTodos.map((todo, index) => (
             <motion.div
@@ -34,15 +40,6 @@ const HomePage = () => {
               <Todo key={poweredTodo.id} todo={poweredTodo} />
             </motion.div>
           )}
-      <PowerButton />
-      <motion.button
-        initial={variants.initial}
-        animate={variants.animate}
-        transition={{ delay: (selectedTodos.length + 1) * 0.2 }}
-        onClick={() => navigate("/add")}
-      >
-        <AddCircleIcon style={{ fontSize: "80px" }} />
-      </motion.button>
     </div>
   );
 };
